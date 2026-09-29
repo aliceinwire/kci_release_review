@@ -1,0 +1,11 @@
+{
+  "origin": "maestro",
+  "include_issues": false,
+  "max_issue_lookups": 0,
+  "max_evidence": 0,
+  "log_bytes": 0,
+  "max_comparisons_per_run": 24,
+  "comparison_timeout_seconds": 180,
+  "time_budget_seconds": 2400,
+  "overrides": {}
+}

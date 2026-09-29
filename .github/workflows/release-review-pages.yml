@@ -6,6 +6,7 @@ on:
     paths:
       - .github/workflows/release-review-pages.yml
       - comparisons.json
+      - release-watch.json
       - kci_release_review/**
       - requirements.txt
       - tests/**
@@ -13,6 +14,7 @@ on:
     paths:
       - .github/workflows/release-review-pages.yml
       - comparisons.json
+      - release-watch.json
       - kci_release_review/**
       - requirements.txt
       - tests/**
@@ -33,7 +35,10 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
+    permissions:
+      contents: read
+      pages: read
     steps:
       - name: Check out source
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
@@ -54,11 +59,23 @@ jobs:
         run: python -m unittest discover -s tests -v
 
       - name: Validate comparison configuration without network requests
-        run: python -m kci_release_review.pages --check
+        run: python -m kci_release_review.daily --check --manual-config comparisons.json
 
-      - name: Run comparisons and build the site
+      - name: Read the current Pages URL
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-        run: python -m kci_release_review.pages --config comparisons.json --out _site
+        id: pages
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
+
+      - name: Discover releases, retry pending comparisons and build the site
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        env:
+          PAGES_URL: ${{ steps.pages.outputs.base_url }}
+        run: |
+          python -m kci_release_review.daily \
+            --config release-watch.json \
+            --manual-config comparisons.json \
+            --site-url "$PAGES_URL" \
+            --out _site
 
       - name: Upload the complete Pages site
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
