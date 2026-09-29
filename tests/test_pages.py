@@ -154,6 +154,25 @@ class PagesTests(unittest.TestCase):
         run.assert_not_called()
         self.assertFalse(self.output.exists())
 
+    def test_configured_history_window_reaches_the_api_and_index_explains_errors(self):
+        self.write_config([{**self.row, "history_hours": 168, "include_issues": False}])
+        with service(snapshot([result("old", "PASS")]), snapshot([result("new", "FAIL")])) as (_, calls):
+            calls["history"].side_effect = KciDevError("history <script>unavailable</script>")
+            with patch("kci_release_review.pages.subprocess.run", side_effect=self.run_cli):
+                summary = build_site(load_comparisons(self.config), self.output)
+        self.assertEqual(calls["history"].call_args.kwargs["max_age_in_hours"], 168)
+        self.assertTrue(summary["comparisons"][0]["incomplete_reasons"])
+        index = (self.output / "index.html").read_text()
+        self.assertIn("Why this comparison is incomplete", index)
+        self.assertIn("history &lt;script&gt;unavailable&lt;/script&gt;", index)
+        self.assertNotIn("<script>", index)
+
+    def test_history_window_range_in_manifest(self):
+        for value in (0, -1, 721, True, "720"):
+            self.write_config([{**self.row, "history_hours": value}])
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                load_comparisons(self.config)
+
     def test_html_escaping_and_literal_cli_options(self):
         self.write_config([{
             **self.row, "title": '<script>alert("x")</script>',

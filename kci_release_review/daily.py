@@ -36,7 +36,8 @@ def load_config(path):
     if not isinstance(config, dict) or set(config) - allowed:
         raise ValueError("Invalid release-watch configuration fields")
     config = {"origin": "maestro", "include_issues": False, "max_issue_lookups": 0,
-              "max_evidence": 0, "log_bytes": 0, "max_comparisons_per_run": 24,
+              "max_evidence": 0, "log_bytes": 0,
+              "history_hours": pages.LIMITS["history_hours"][0], "max_comparisons_per_run": 24,
               "comparison_timeout_seconds": 180, "time_budget_seconds": 2400,
               "overrides": {}, **config}
     for key, low, high in (("max_comparisons_per_run", 1, 100),
@@ -218,6 +219,8 @@ def describe_evidence(report):
         if not completed:
             return "WAITING_FOR_KERNELCI", f"No completed outcomes for the exact {side} release commit; retry remains queued."
     if report["assessment"]["exit_code"] == 2:
+        if report.get("history_lookup", {}).get("state") == "error":
+            return "EVIDENCE_INCOMPLETE", "Exact-commit results available, but tree history is unavailable or mismatched; retry remains queued."
         return "EVIDENCE_INCOMPLETE", "Comparison available, but evidence is incomplete; retry remains queued."
     return "COMPARED", "Observed results compared. Required coverage and release approval are not assessed."
 

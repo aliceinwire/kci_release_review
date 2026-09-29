@@ -97,6 +97,31 @@ class DailyTests(unittest.TestCase):
         self.assertEqual((second / entry["report_json"]).read_bytes(), (first / entry["report_json"]).read_bytes())
         self.assertIn(entry["report_html"], (second / "index.html").read_text())
 
+    def test_old_saved_configuration_retries_with_new_history_window(self):
+        first, second = self.root / "first", self.root / "second"
+        with service(snapshot([result("old", "PASS")]), snapshot([result("new", "FAIL")]), history_error=True):
+            summary = self.build(first)
+        self.assertEqual(summary["comparisons"][0]["watch_status"], "EVIDENCE_INCOMPLETE")
+        path = first / "release-state.json"
+        state = json.loads(path.read_text())
+        next(iter(state["releases"].values()))["config"].pop("history_hours")
+        path.write_text(json.dumps(state))
+        with service(snapshot([result("old", "PASS")]), snapshot([result("new", "FAIL")])) as (_, calls):
+            summary = self.build(second, first)
+        self.assertEqual(calls["history"].call_args.kwargs["max_age_in_hours"], 720)
+        entry = summary["comparisons"][0]
+        self.assertEqual(entry["watch_status"], "COMPARED")
+        self.assertEqual(entry["attempts"], 2)
+        self.assertEqual(len(summary["comparisons"]), 1)
+        saved = json.loads((second / "release-state.json").read_text())
+        self.assertEqual(next(iter(saved["releases"].values()))["config"]["history_hours"], 720)
+
+    def test_watch_history_window_is_validated(self):
+        for hours in (0, 721, True):
+            self.config_file.write_text(json.dumps({"history_hours": hours}))
+            with self.subTest(hours=hours), self.assertRaises(ValueError):
+                daily.load_config(self.config_file)
+
     def test_api_error_diagnostic_does_not_replace_existing_comparison(self):
         first, second = self.root / "first", self.root / "second"
         with service(snapshot([result("old", "PASS")]), snapshot([result("new", "FAIL")])):

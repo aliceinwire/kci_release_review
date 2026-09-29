@@ -5,6 +5,8 @@ from urllib.parse import urlparse
 
 from kcidev import KciDevError, KernelCIClient
 
+DEFAULT_HISTORY_HOURS = 720  # Dashboard tree-report API maximum: 30 days.
+
 
 class ReviewClient(KernelCIClient):
     """Keep the exact listings used by compare_results, without fetching twice.
@@ -14,11 +16,15 @@ class ReviewClient(KernelCIClient):
     Collection resets observations at the start of each comparison.
     """
 
-    def __init__(self, *args, max_issue_lookups=20, **kwargs):
+    def __init__(self, *args, max_issue_lookups=20,
+                 history_hours=DEFAULT_HISTORY_HOURS, **kwargs):
         if not isinstance(max_issue_lookups, int) or not 0 <= max_issue_lookups <= 1000:
             raise ValueError("max_issue_lookups must be 0..1000")
+        if type(history_hours) is not int or not 1 <= history_hours <= 720:
+            raise ValueError("history_hours must be an integer from 1 to 720")
         super().__init__(*args, **kwargs)
         self.max_issue_lookups = max_issue_lookups
+        self.history_hours = history_hours
         self.begin_comparison()
 
     def begin_comparison(self):
@@ -27,6 +33,7 @@ class ReviewClient(KernelCIClient):
         self.issue_lookups = {}
         self.issue_requests = 0
         self.history_lookup = {"state": "not_requested"}
+        self._history_selection = None
 
     def _record(self, section, args, kwargs, response):
         names = ("origin", "giturl", "branch", "commit")
@@ -48,13 +55,49 @@ class ReviewClient(KernelCIClient):
     def get_tests(self, *args, **kwargs):
         return self._record("tests", args, kwargs, super().get_tests(*args, **kwargs))
 
-    def get_tree_report(self, *args, **kwargs):
-        self.history_lookup = {"state": "requested",
-                               "history_size": kwargs.get("history_size", 10),
-                               "max_age_in_hours": kwargs.get("max_age_in_hours", 24),
-                               "min_age_in_hours": kwargs.get("min_age_in_hours", 0)}
+    def compare_results(self, base, head, giturl, branch, origin="maestro",
+                        include_issues=False):
+        # tree-report selects a branch checkout, not the requested commit.
+        # Never let another checkout's history alter this comparison.
+        self._history_selection = {"origin": origin, "git_url": giturl,
+                                   "git_branch": branch, "commit_hash": head}
         try:
-            response = super().get_tree_report(*args, **kwargs)
+            return super().compare_results(base=base, head=head, giturl=giturl,
+                                           branch=branch, origin=origin,
+                                           include_issues=include_issues)
+        finally:
+            self._history_selection = None
+
+    def get_tree_report(self, origin, git_branch, git_url, test_path=None,
+                        history_size=10, max_age_in_hours=None, min_age_in_hours=0):
+        if max_age_in_hours is None:
+            max_age_in_hours = self.history_hours
+        self.history_lookup = {"state": "requested",
+                               "history_size": history_size,
+                               "max_age_in_hours": max_age_in_hours,
+                               "min_age_in_hours": min_age_in_hours}
+        if self._history_selection:
+            self.history_lookup["requested_head"] = self._history_selection["commit_hash"]
+        try:
+            response = super().get_tree_report(
+                origin, git_branch, git_url, test_path=test_path,
+                history_size=history_size, max_age_in_hours=max_age_in_hours,
+                min_age_in_hours=min_age_in_hours)
+            if not isinstance(response, dict):
+                raise KciDevError("Unexpected tree history response")
+            for key in ("commit_hash", "checkout_start_time", "origin", "git_url", "git_branch"):
+                if key in response:
+                    self.history_lookup[key] = response[key]
+            if self._history_selection:
+                mismatches = [key for key, value in self._history_selection.items()
+                              if response.get(key) != value]
+                if mismatches:
+                    raise KciDevError(
+                        "Tree history does not match the selected head checkout "
+                        f"({', '.join(mismatches)}); selected head "
+                        f"{self._history_selection['commit_hash']}, returned "
+                        f"{response.get('commit_hash', 'unknown')}. "
+                        "Only the exact-commit result comparison is available.")
         except Exception as exc:
             self.history_lookup.update(state="error", error=f"{type(exc).__name__}: {exc}")
             raise
@@ -89,7 +132,8 @@ class ReviewClient(KernelCIClient):
         return self._issues("test", test_id, super().get_boot_issues, *args, **kwargs)
 
 
-def make_client(config=None, instance=None, dashboard_api=None, max_issue_lookups=20):
+def make_client(config=None, instance=None, dashboard_api=None, max_issue_lookups=20,
+                history_hours=DEFAULT_HISTORY_HOURS):
     cfg = None
     if config:
         try:
@@ -109,7 +153,7 @@ def make_client(config=None, instance=None, dashboard_api=None, max_issue_lookup
                 "the instance's Maestro URL does not select a dashboard"
             )
     client = ReviewClient(cfg=cfg, instance=selected, dashboard_api=dashboard_api,
-                          max_issue_lookups=max_issue_lookups)
+                          max_issue_lookups=max_issue_lookups, history_hours=history_hours)
     url = urlparse(client.dashboard_api)
     if url.scheme not in ("http", "https") or not url.netloc or url.username or url.password:
         raise ValueError("dashboard_api must be an HTTP(S) URL without embedded credentials")
