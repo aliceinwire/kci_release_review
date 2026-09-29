@@ -1,0 +1,1558 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<title>KernelCI release comparison</title><style>
+body{font:16px/1.55 system-ui,sans-serif;color:#172b3a;background:#f1f5f8;margin:0}
+main{max-width:1200px;margin:auto;padding:36px 24px}h1{font-size:36px;line-height:1.2;margin:8px 0 18px}
+h2{margin:0 0 16px;font-size:23px}h3{font-size:18px}.eyebrow{color:#526a7c;letter-spacing:.1em;font-size:12px;font-weight:700}
+.panel{background:white;border:1px solid #d9e1e8;border-radius:12px;padding:22px;margin:20px 0}
+.status{background:#fff6dc;border:1px solid #dfb965;border-radius:10px;padding:18px;margin:22px 0}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.card{background:white;border:1px solid #d9e1e8;border-radius:10px;padding:16px}
+.card strong{display:block;font-size:28px}.muted,small{color:#526a7c}a{color:#075b80;text-underline-offset:3px}
+code,pre{font-family:ui-monospace,monospace;font-size:12px}code{overflow-wrap:anywhere}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f1f5f8;padding:14px;border-radius:6px;max-height:500px;overflow:auto}
+.scroll{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:13px}th,td{padding:12px 10px;text-align:left;vertical-align:top;border-bottom:1px solid #e3e9ef}
+th{background:#f6f8fa}td{overflow-wrap:anywhere;min-width:95px}.identity{min-width:220px}summary{cursor:pointer;font-weight:650}
+dl{display:grid;grid-template-columns:100px 1fr;gap:8px}dt{color:#526a7c}dd{margin:0;overflow-wrap:anywhere}li{margin:8px 0}
+@media(max-width:650px){main{padding:22px 14px}h1{font-size:28px}.cards{grid-template-columns:repeat(2,1fr)}.panel{padding:16px}}
+@media print{body{background:white}.panel,.card{break-inside:avoid}pre{max-height:none}.scroll{overflow:visible}a{color:inherit}}
+</style></head><body><main>
+<div class="eyebrow">KERNELCI / RELEASE REVIEW</div>
+<h1>What changed between these revisions?</h1>
+<p class="muted">Collected 2026-09-28T08:23:31.491607+00:00 · kci-dev 0.1.11</p>
+<div class="status"><strong>EVIDENCE INCOMPLETE</strong>
+<br>Required coverage and pending jobs have not been assessed. This report does not approve a release.</div>
+<section class="panel"><h2>Compared checkouts</h2><dl>
+<dt>giturl</dt><dd><code>https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git</code></dd>
+<dt>branch</dt><dd><code>linux-6.12.y</code></dd>
+<dt>origin</dt><dd><code>maestro</code></dd>
+<dt>base</dt><dd><code>fa5b06866b643cce7072a4e7c6be7ee3f0f1b95c</code></dd>
+<dt>head</dt><dd><code>e2acc2211022246c77740d5df08265cc27eedcc5</code></dd>
+</dl><p>All reported changes and raw selected evidence: <a href="report.json">report.json</a>.</p></section>
+<div class="cards">
+<div class="card"><span>Regression</span><strong>1</strong></div>
+<div class="card"><span>Fixed</span><strong>36</strong></div>
+<div class="card"><span>Unstable</span><strong>0</strong></div>
+<div class="card"><span>Persistent Fail</span><strong>389</strong></div>
+<div class="card"><span>New</span><strong>5426</strong></div>
+<div class="card"><span>Missing</span><strong>796</strong></div>
+</div><section class="panel"><h2>Evidence and scope</h2><ul>
+<li>kci-dev marked the comparison incomplete (history or issue evidence is missing).</li>
+<li>History lookup: KciDevError: Dashboard tree report request failed: Tree not found in the given interval</li>
+<li>Issue lookup limit left 370 result IDs unchecked.</li>
+<li>Required test coverage, pending jobs, and release policy have not been assessed.</li>
+<li>Classifications come from kci-dev; its history lookup uses a recent tree-report window.</li>
+<li>Counts describe observed executions, including duplicates; they are not a coverage percentage.</li>
+<li>Supplemental details/logs were limited: 635 failing result IDs were not expanded.</li>
+<li>Supplemental evidence is unavailable for 3 expanded result IDs; see their errors.</li>
+</ul><div class="scroll"><table><thead><tr><th>Checkout</th><th>Builds</th><th>Boots</th><th>Tests</th></tr></thead><tbody>
+<tr><th>Base</th>
+<td>55 executions<br><small>FAIL: 4, PASS: 51</small></td>
+<td>79 executions<br><small>PASS: 79</small></td>
+<td>8362 executions<br><small>FAIL: 466, PASS: 7650, SKIP: 246</small></td>
+</tr>
+<tr><th>Head</th>
+<td>50 executions<br><small>PASS: 50</small></td>
+<td>45 executions<br><small>PASS: 45</small></td>
+<td>13031 executions<br><small>FAIL: 638, PASS: 10950, SKIP: 1443</small></td>
+</tr>
+</tbody></table></div></section>
+<section class="panel"><h2>Regression <small>(1)</small></h2>
+<div class="scroll"><table><thead><tr><th>Result identity</th><th>Base</th><th>Head</th><th>Known issues at head</th></tr></thead><tbody>
+<tr><td class="identity">
+<strong>kernelci_watchdog_reset.wdt-reset.wdt-get-timeout</strong><br><small>
+test · maestro · mt8195-cherry-tomato-r2 · arm64 · gcc-14 · defconfig+lab-setup+arm64-chromebook+CONFIG_MODULE_COMPRESS=n+CONFIG_MODULE_COMPRESS_NONE=y
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa8117620239ade90344a77" rel="noreferrer">maestro:6aa8117620239ade90344a77</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1405cd96a8203de790329" rel="noreferrer">maestro:6ab1405cd96a8203de790329</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+</tbody></table></div></section>
+<section class="panel"><h2>Fixed <small>(36)</small></h2>
+<div class="scroll"><table><thead><tr><th>Result identity</th><th>Base</th><th>Head</th><th>Known issues at head</th></tr></thead><tbody>
+<tr><td class="identity">
+<strong>build</strong><br><small>
+build · maestro · unknown · arm · clang-21 · defconfig+allmodconfig+CONFIG_FRAME_WARN=2048
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/build/maestro%3A6aa7e2fa20239ade9033466c" rel="noreferrer">maestro:6aa7e2fa20239ade9033466c</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/build/maestro%3A6ab137b5d96a8203de78df21" rel="noreferrer">maestro:6ab137b5d96a8203de78df21</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>build</strong><br><small>
+build · maestro · unknown · s390 · gcc-14 · defconfig
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/build/maestro%3A6aa7e3d220239ade903349fe" rel="noreferrer">maestro:6aa7e3d220239ade903349fe</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/build/maestro%3A6ab1385ed96a8203de78e0ac" rel="noreferrer">maestro:6ab1385ed96a8203de78e0ac</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>build</strong><br><small>
+build · maestro · unknown · x86_64 · gcc-15 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/build/maestro%3A6aa7e3e220239ade90334a0f" rel="noreferrer">maestro:6aa7e3e220239ade90334a0f</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/build/maestro%3A6ab13866d96a8203de78e0b5" rel="noreferrer">maestro:6ab13866d96a8203de78e0b5</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec</strong><br><small>
+test · maestro · acer-R721T-grunt · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fb2720239ade9033ad79" rel="noreferrer">maestro:6aa7fb2720239ade9033ad79</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16154d96a8203de7a3b13" rel="noreferrer">maestro:6ab16154d96a8203de7a3b13</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_non-regular</strong><br><small>
+test · maestro · acer-R721T-grunt · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc1220239ade9033d2cd" rel="noreferrer">maestro:6aa7fc1220239ade9033d2cd</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1625dd96a8203de7a6278" rel="noreferrer">maestro:6ab1625dd96a8203de7a6278</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec</strong><br><small>
+test · maestro · acer-cbv514-1h-34uz-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fb2120239ade9033ad66" rel="noreferrer">maestro:6aa7fb2120239ade9033ad66</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1614ed96a8203de7a3a85" rel="noreferrer">maestro:6ab1614ed96a8203de7a3a85</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_non-regular</strong><br><small>
+test · maestro · acer-cbv514-1h-34uz-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc2a20239ade9033d49b" rel="noreferrer">maestro:6aa7fc2a20239ade9033d49b</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab161f6d96a8203de7a545f" rel="noreferrer">maestro:6ab161f6d96a8203de7a545f</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec</strong><br><small>
+test · maestro · acer-chromebox-cxi5-brask · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fb2220239ade9033ad6a" rel="noreferrer">maestro:6aa7fb2220239ade9033ad6a</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1614fd96a8203de7a3a88" rel="noreferrer">maestro:6ab1614fd96a8203de7a3a88</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_non-regular</strong><br><small>
+test · maestro · acer-chromebox-cxi5-brask · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc4820239ade9033daf0" rel="noreferrer">maestro:6aa7fc4820239ade9033daf0</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16350d96a8203de7a69fa" rel="noreferrer">maestro:6ab16350d96a8203de7a69fa</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec</strong><br><small>
+test · maestro · acer-cp514-2h-1130g7-volteer · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fb2320239ade9033ad6d" rel="noreferrer">maestro:6aa7fb2320239ade9033ad6d</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16150d96a8203de7a3a8b" rel="noreferrer">maestro:6ab16150d96a8203de7a3a8b</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_non-regular</strong><br><small>
+test · maestro · acer-cp514-2h-1130g7-volteer · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc4020239ade9033d858" rel="noreferrer">maestro:6aa7fc4020239ade9033d858</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16247d96a8203de7a5e7f" rel="noreferrer">maestro:6ab16247d96a8203de7a5e7f</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec</strong><br><small>
+test · maestro · acer-cp514-2h-1160g7-volteer · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fb2420239ade9033ad70" rel="noreferrer">maestro:6aa7fb2420239ade9033ad70</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16152d96a8203de7a3a8e" rel="noreferrer">maestro:6ab16152d96a8203de7a3a8e</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_non-regular</strong><br><small>
+test · maestro · acer-cp514-2h-1160g7-volteer · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fbd120239ade9033c73a" rel="noreferrer">maestro:6aa7fbd120239ade9033c73a</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1625bd96a8203de7a610d" rel="noreferrer">maestro:6ab1625bd96a8203de7a610d</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec</strong><br><small>
+test · maestro · acer-cp514-3wh-r0qs-guybrush · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fb2820239ade9033ad7c" rel="noreferrer">maestro:6aa7fb2820239ade9033ad7c</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16156d96a8203de7a3b17" rel="noreferrer">maestro:6ab16156d96a8203de7a3b17</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_non-regular</strong><br><small>
+test · maestro · acer-cp514-3wh-r0qs-guybrush · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc4720239ade9033d956" rel="noreferrer">maestro:6aa7fc4720239ade9033d956</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1621bd96a8203de7a5a32" rel="noreferrer">maestro:6ab1621bd96a8203de7a5a32</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec</strong><br><small>
+test · maestro · asus-CM1400CXA-dalboz · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fb2920239ade9033ad7f" rel="noreferrer">maestro:6aa7fb2920239ade9033ad7f</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16157d96a8203de7a3b1a" rel="noreferrer">maestro:6ab16157d96a8203de7a3b1a</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_non-regular</strong><br><small>
+test · maestro · asus-CM1400CXA-dalboz · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc4820239ade9033dab2" rel="noreferrer">maestro:6aa7fc4820239ade9033dab2</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16258d96a8203de7a5fa3" rel="noreferrer">maestro:6ab16258d96a8203de7a5fa3</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec</strong><br><small>
+test · maestro · asus-CX3402CVA-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fb2520239ade9033ad74" rel="noreferrer">maestro:6aa7fb2520239ade9033ad74</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16153d96a8203de7a3a91" rel="noreferrer">maestro:6ab16153d96a8203de7a3a91</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_non-regular</strong><br><small>
+test · maestro · asus-CX3402CVA-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc3820239ade9033d71e" rel="noreferrer">maestro:6aa7fc3820239ade9033d71e</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16217d96a8203de7a5917" rel="noreferrer">maestro:6ab16217d96a8203de7a5917</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.arm64</strong><br><small>
+test · maestro · cd8180-orion-o6 · arm64 · gcc-15 · defconfig+netdev+nfs-root-boot+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7f0a520239ade90337439" rel="noreferrer">maestro:6aa7f0a520239ade90337439</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab157d9d96a8203de79e0de" rel="noreferrer">maestro:6ab157d9d96a8203de79e0de</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>ltp</strong><br><small>
+test · maestro · cd8180-orion-o6 · arm64 · gcc-15 · defconfig+netdev+nfs-root-boot+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7f0a020239ade903373e0" rel="noreferrer">maestro:6aa7f0a020239ade903373e0</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab157d4d96a8203de79e087" rel="noreferrer">maestro:6ab157d4d96a8203de79e087</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec</strong><br><small>
+test · maestro · dell-latitude-3445-7520c-skyrim · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fb2a20239ade9033ad9b" rel="noreferrer">maestro:6aa7fb2a20239ade9033ad9b</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16158d96a8203de7a3b1d" rel="noreferrer">maestro:6ab16158d96a8203de7a3b1d</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_non-regular</strong><br><small>
+test · maestro · dell-latitude-3445-7520c-skyrim · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fbea20239ade9033cfe9" rel="noreferrer">maestro:6aa7fbea20239ade9033cfe9</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1625dd96a8203de7a6190" rel="noreferrer">maestro:6ab1625dd96a8203de7a6190</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec</strong><br><small>
+test · maestro · hp-x360-14a-cb0001xx-zork · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fb2c20239ade9033ad9e" rel="noreferrer">maestro:6aa7fb2c20239ade9033ad9e</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16159d96a8203de7a3b20" rel="noreferrer">maestro:6ab16159d96a8203de7a3b20</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_non-regular</strong><br><small>
+test · maestro · hp-x360-14a-cb0001xx-zork · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc3020239ade9033d5c5" rel="noreferrer">maestro:6aa7fc3020239ade9033d5c5</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16227d96a8203de7a5c0c" rel="noreferrer">maestro:6ab16227d96a8203de7a5c0c</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kernelci_wifi_basic</strong><br><small>
+test · maestro · lenovo-TPad-C13-Yoga-zork · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fe0d20239ade9033e359" rel="noreferrer">maestro:6aa7fe0d20239ade9033e359</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16191d96a8203de7a4de9" rel="noreferrer">maestro:6ab16191d96a8203de7a4de9</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec</strong><br><small>
+test · maestro · lenovo-TPad-C13-Yoga-zork · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fb2d20239ade9033ada1" rel="noreferrer">maestro:6aa7fb2d20239ade9033ada1</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1615bd96a8203de7a3b23" rel="noreferrer">maestro:6ab1615bd96a8203de7a3b23</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_non-regular</strong><br><small>
+test · maestro · lenovo-TPad-C13-Yoga-zork · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc9e20239ade9033df5c" rel="noreferrer">maestro:6aa7fc9e20239ade9033df5c</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16279d96a8203de7a64e1" rel="noreferrer">maestro:6ab16279d96a8203de7a64e1</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec</strong><br><small>
+test · maestro · mt8183-kukui-jacuzzi-juniper-sku16 · arm64 · gcc-14 · defconfig+lab-setup+arm64-chromebook+CONFIG_MODULE_COMPRESS=n+CONFIG_MODULE_COMPRESS_NONE=y
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa80fd720239ade90343e9d" rel="noreferrer">maestro:6aa80fd720239ade90343e9d</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab13e37d96a8203de78f3ea" rel="noreferrer">maestro:6ab13e37d96a8203de78f3ea</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.shardfile-exec</strong><br><small>
+test · maestro · mt8183-kukui-jacuzzi-juniper-sku16 · arm64 · gcc-14 · defconfig+lab-setup+arm64-chromebook+CONFIG_MODULE_COMPRESS=n+CONFIG_MODULE_COMPRESS_NONE=y
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa8119720239ade90344af9" rel="noreferrer">maestro:6aa8119720239ade90344af9</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab141afd96a8203de790866" rel="noreferrer">maestro:6ab141afd96a8203de790866</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec</strong><br><small>
+test · maestro · mt8195-cherry-tomato-r2 · arm64 · gcc-14 · defconfig+lab-setup+arm64-chromebook+CONFIG_MODULE_COMPRESS=n+CONFIG_MODULE_COMPRESS_NONE=y
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa80fd820239ade90343ea0" rel="noreferrer">maestro:6aa80fd820239ade90343ea0</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab13e39d96a8203de78f3ed" rel="noreferrer">maestro:6ab13e39d96a8203de78f3ed</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.shardfile-exec</strong><br><small>
+test · maestro · mt8195-cherry-tomato-r2 · arm64 · gcc-14 · defconfig+lab-setup+arm64-chromebook+CONFIG_MODULE_COMPRESS=n+CONFIG_MODULE_COMPRESS_NONE=y
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa810d620239ade90344665" rel="noreferrer">maestro:6aa810d620239ade90344665</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab13f05d96a8203de78f839" rel="noreferrer">maestro:6ab13f05d96a8203de78f839</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec</strong><br><small>
+test · maestro · sc7180-trogdor-kingoftown · arm64 · gcc-14 · defconfig+lab-setup+arm64-chromebook+CONFIG_MODULE_COMPRESS=n+CONFIG_MODULE_COMPRESS_NONE=y
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa80fd320239ade90343e94" rel="noreferrer">maestro:6aa80fd320239ade90343e94</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab13e35d96a8203de78f3ce" rel="noreferrer">maestro:6ab13e35d96a8203de78f3ce</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.shardfile-exec</strong><br><small>
+test · maestro · sc7180-trogdor-kingoftown · arm64 · gcc-14 · defconfig+lab-setup+arm64-chromebook+CONFIG_MODULE_COMPRESS=n+CONFIG_MODULE_COMPRESS_NONE=y
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa810d920239ade9034467f" rel="noreferrer">maestro:6aa810d920239ade9034467f</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab13f40d96a8203de78fe75" rel="noreferrer">maestro:6ab13f40d96a8203de78fe75</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec</strong><br><small>
+test · maestro · sc7180-trogdor-wormdingler-rev1-boe · arm64 · gcc-14 · defconfig+lab-setup+arm64-chromebook+CONFIG_MODULE_COMPRESS=n+CONFIG_MODULE_COMPRESS_NONE=y
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa80fd520239ade90343e9a" rel="noreferrer">maestro:6aa80fd520239ade90343e9a</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab13e36d96a8203de78f3d1" rel="noreferrer">maestro:6ab13e36d96a8203de78f3d1</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.shardfile-exec</strong><br><small>
+test · maestro · sc7180-trogdor-wormdingler-rev1-boe · arm64 · gcc-14 · defconfig+lab-setup+arm64-chromebook+CONFIG_MODULE_COMPRESS=n+CONFIG_MODULE_COMPRESS_NONE=y
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa810d120239ade9034465f" rel="noreferrer">maestro:6aa810d120239ade9034465f</a></code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab13ef1d96a8203de78f5be" rel="noreferrer">maestro:6ab13ef1d96a8203de78f5be</a></code></td>
+<td>Not checked for this entry</td></tr>
+</tbody></table></div></section>
+<section class="panel"><h2>Unstable <small>(0)</small></h2>
+<p class="muted">No entries returned in this category.</p></section>
+<section class="panel"><h2>Persistent Fail <small>(389)</small></h2>
+<p>Showing 50 of 389 entries. All entries are preserved in report.json.</p>
+<div class="scroll"><table><thead><tr><th>Result identity</th><th>Base</th><th>Head</th><th>Known issues at head</th></tr></thead><tbody>
+<tr><td class="identity">
+<strong>kselftest.iommu</strong><br><small>
+test · maestro · acer-R721T-grunt · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fb3420239ade9033adb3" rel="noreferrer">maestro:6aa7fb3420239ade9033adb3</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16162d96a8203de7a3b55" rel="noreferrer">maestro:6ab16162d96a8203de7a3b55</a></code></td>
+<td>No associated issue returned</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu.iommu_iommufd</strong><br><small>
+test · maestro · acer-R721T-grunt · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc2420239ade9033d444" rel="noreferrer">maestro:6aa7fc2420239ade9033d444</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab164dbd96a8203de7a97db" rel="noreferrer">maestro:6ab164dbd96a8203de7a97db</a></code></td>
+<td>No associated issue returned</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu.iommu_iommufd_fail_nth</strong><br><small>
+test · maestro · acer-R721T-grunt · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc2420239ade9033d443" rel="noreferrer">maestro:6aa7fc2420239ade9033d443</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab164dbd96a8203de7a97da" rel="noreferrer">maestro:6ab164dbd96a8203de7a97da</a></code></td>
+<td>No associated issue returned</td></tr>
+<tr><td class="identity">
+<strong>kernelci_watchdog_reset.wdt-reset</strong><br><small>
+test · maestro · acer-cbv514-1h-34uz-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc4520239ade9033d906" rel="noreferrer">maestro:6aa7fc4520239ade9033d906</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab161edd96a8203de7a53c8" rel="noreferrer">maestro:6ab161edd96a8203de7a53c8</a></code></td>
+<td>No associated issue returned</td></tr>
+<tr><td class="identity">
+<strong>kernelci_watchdog_reset.wdt-reset.wdt-get-timeout</strong><br><small>
+test · maestro · acer-cbv514-1h-34uz-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc4520239ade9033d907" rel="noreferrer">maestro:6aa7fc4520239ade9033d907</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab161edd96a8203de7a53c9" rel="noreferrer">maestro:6ab161edd96a8203de7a53c9</a></code></td>
+<td>No associated issue returned</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu</strong><br><small>
+test · maestro · acer-cbv514-1h-34uz-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fb2e20239ade9033ada4" rel="noreferrer">maestro:6aa7fb2e20239ade9033ada4</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1615cd96a8203de7a3b46" rel="noreferrer">maestro:6ab1615cd96a8203de7a3b46</a></code></td>
+<td>No associated issue returned</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu.iommu_iommufd</strong><br><small>
+test · maestro · acer-cbv514-1h-34uz-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc4720239ade9033da28" rel="noreferrer">maestro:6aa7fc4720239ade9033da28</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab161e6d96a8203de7a535b" rel="noreferrer">maestro:6ab161e6d96a8203de7a535b</a></code></td>
+<td>No associated issue returned</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu.iommu_iommufd_fail_nth</strong><br><small>
+test · maestro · acer-cbv514-1h-34uz-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc4720239ade9033da27" rel="noreferrer">maestro:6aa7fc4720239ade9033da27</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab161e6d96a8203de7a535a" rel="noreferrer">maestro:6ab161e6d96a8203de7a535a</a></code></td>
+<td>No associated issue returned</td></tr>
+<tr><td class="identity">
+<strong>kernelci_watchdog_reset</strong><br><small>
+test · maestro · acer-chromebox-cxi5-brask · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fb5320239ade9033adfa" rel="noreferrer">maestro:6aa7fb5320239ade9033adfa</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16184d96a8203de7a44b7" rel="noreferrer">maestro:6ab16184d96a8203de7a44b7</a></code></td>
+<td>No associated issue returned</td></tr>
+<tr><td class="identity">
+<strong>kernelci_watchdog_reset.wdt-reset.wdt-trigger-reset</strong><br><small>
+test · maestro · acer-chromebox-cxi5-brask · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc5f20239ade9033dd29" rel="noreferrer">maestro:6aa7fc5f20239ade9033dd29</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16288d96a8203de7a65b9" rel="noreferrer">maestro:6ab16288d96a8203de7a65b9</a></code></td>
+<td>No associated issue returned</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu</strong><br><small>
+test · maestro · acer-chromebox-cxi5-brask · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fb3020239ade9033ada7" rel="noreferrer">maestro:6aa7fb3020239ade9033ada7</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1615dd96a8203de7a3b49" rel="noreferrer">maestro:6ab1615dd96a8203de7a3b49</a></code></td>
+<td>No associated issue returned</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu.iommu_iommufd</strong><br><small>
+test · maestro · acer-chromebox-cxi5-brask · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc4020239ade9033d7dd" rel="noreferrer">maestro:6aa7fc4020239ade9033d7dd</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16260d96a8203de7a63f3" rel="noreferrer">maestro:6ab16260d96a8203de7a63f3</a></code></td>
+<td>No associated issue returned</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu.iommu_iommufd_fail_nth</strong><br><small>
+test · maestro · acer-chromebox-cxi5-brask · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc4020239ade9033d7dc" rel="noreferrer">maestro:6aa7fc4020239ade9033d7dc</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16260d96a8203de7a63f1" rel="noreferrer">maestro:6ab16260d96a8203de7a63f1</a></code></td>
+<td>No associated issue returned</td></tr>
+<tr><td class="identity">
+<strong>kernelci_watchdog_reset.wdt-reset</strong><br><small>
+test · maestro · acer-cp514-2h-1130g7-volteer · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fbb420239ade9033afad" rel="noreferrer">maestro:6aa7fbb420239ade9033afad</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16219d96a8203de7a5972" rel="noreferrer">maestro:6ab16219d96a8203de7a5972</a></code></td>
+<td>No associated issue returned</td></tr>
+<tr><td class="identity">
+<strong>kernelci_watchdog_reset.wdt-reset.wdt-get-timeout</strong><br><small>
+test · maestro · acer-cp514-2h-1130g7-volteer · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fbb420239ade9033afae" rel="noreferrer">maestro:6aa7fbb420239ade9033afae</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16219d96a8203de7a5973" rel="noreferrer">maestro:6ab16219d96a8203de7a5973</a></code></td>
+<td>No associated issue returned</td></tr>
+<tr><td class="identity">
+<strong>kernelci_wifi_basic</strong><br><small>
+test · maestro · acer-cp514-2h-1130g7-volteer · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fd0620239ade9033e1bc" rel="noreferrer">maestro:6aa7fd0620239ade9033e1bc</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1632dd96a8203de7a670e" rel="noreferrer">maestro:6ab1632dd96a8203de7a670e</a></code></td>
+<td>No associated issue returned</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu</strong><br><small>
+test · maestro · acer-cp514-2h-1130g7-volteer · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fb3120239ade9033adaa" rel="noreferrer">maestro:6aa7fb3120239ade9033adaa</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1615ed96a8203de7a3b4c" rel="noreferrer">maestro:6ab1615ed96a8203de7a3b4c</a></code></td>
+<td>No associated issue returned</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu.iommu_iommufd</strong><br><small>
+test · maestro · acer-cp514-2h-1130g7-volteer · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fbf920239ade9033d123" rel="noreferrer">maestro:6aa7fbf920239ade9033d123</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1625bd96a8203de7a60f0" rel="noreferrer">maestro:6ab1625bd96a8203de7a60f0</a></code></td>
+<td>No associated issue returned</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu.iommu_iommufd_fail_nth</strong><br><small>
+test · maestro · acer-cp514-2h-1130g7-volteer · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fbf920239ade9033d122" rel="noreferrer">maestro:6aa7fbf920239ade9033d122</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1625bd96a8203de7a60ee" rel="noreferrer">maestro:6ab1625bd96a8203de7a60ee</a></code></td>
+<td>No associated issue returned</td></tr>
+<tr><td class="identity">
+<strong>kernelci_watchdog_reset.wdt-reset</strong><br><small>
+test · maestro · acer-cp514-2h-1160g7-volteer · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc0020239ade9033d133" rel="noreferrer">maestro:6aa7fc0020239ade9033d133</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab161ddd96a8203de7a533e" rel="noreferrer">maestro:6ab161ddd96a8203de7a533e</a></code></td>
+<td>No associated issue returned</td></tr>
+<tr><td class="identity">
+<strong>kernelci_watchdog_reset.wdt-reset.wdt-get-timeout</strong><br><small>
+test · maestro · acer-cp514-2h-1160g7-volteer · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc0020239ade9033d134" rel="noreferrer">maestro:6aa7fc0020239ade9033d134</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab161ddd96a8203de7a533f" rel="noreferrer">maestro:6ab161ddd96a8203de7a533f</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+<tr><td class="identity">
+<strong>kernelci_wifi_basic</strong><br><small>
+test · maestro · acer-cp514-2h-1160g7-volteer · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fd3620239ade9033e1d8" rel="noreferrer">maestro:6aa7fd3620239ade9033e1d8</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1635ed96a8203de7a6abc" rel="noreferrer">maestro:6ab1635ed96a8203de7a6abc</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu</strong><br><small>
+test · maestro · acer-cp514-2h-1160g7-volteer · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fb3220239ade9033adad" rel="noreferrer">maestro:6aa7fb3220239ade9033adad</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1615fd96a8203de7a3b4f" rel="noreferrer">maestro:6ab1615fd96a8203de7a3b4f</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu.iommu_iommufd</strong><br><small>
+test · maestro · acer-cp514-2h-1160g7-volteer · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc0a20239ade9033d19e" rel="noreferrer">maestro:6aa7fc0a20239ade9033d19e</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16259d96a8203de7a600f" rel="noreferrer">maestro:6ab16259d96a8203de7a600f</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu.iommu_iommufd_fail_nth</strong><br><small>
+test · maestro · acer-cp514-2h-1160g7-volteer · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc0a20239ade9033d19d" rel="noreferrer">maestro:6aa7fc0a20239ade9033d19d</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16259d96a8203de7a600e" rel="noreferrer">maestro:6ab16259d96a8203de7a600e</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu</strong><br><small>
+test · maestro · acer-cp514-3wh-r0qs-guybrush · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fb3620239ade9033adb6" rel="noreferrer">maestro:6aa7fb3620239ade9033adb6</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16163d96a8203de7a3b70" rel="noreferrer">maestro:6ab16163d96a8203de7a3b70</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu.iommu_iommufd</strong><br><small>
+test · maestro · acer-cp514-3wh-r0qs-guybrush · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fbf320239ade9033d0c8" rel="noreferrer">maestro:6aa7fbf320239ade9033d0c8</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1620bd96a8203de7a5865" rel="noreferrer">maestro:6ab1620bd96a8203de7a5865</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu.iommu_iommufd_fail_nth</strong><br><small>
+test · maestro · acer-cp514-3wh-r0qs-guybrush · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fbf320239ade9033d0c7" rel="noreferrer">maestro:6aa7fbf320239ade9033d0c7</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1620bd96a8203de7a5864" rel="noreferrer">maestro:6ab1620bd96a8203de7a5864</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu</strong><br><small>
+test · maestro · asus-CM1400CXA-dalboz · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fb3720239ade9033adb9" rel="noreferrer">maestro:6aa7fb3720239ade9033adb9</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16164d96a8203de7a3b73" rel="noreferrer">maestro:6ab16164d96a8203de7a3b73</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu.iommu_iommufd</strong><br><small>
+test · maestro · asus-CM1400CXA-dalboz · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc6c20239ade9033de1f" rel="noreferrer">maestro:6aa7fc6c20239ade9033de1f</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1625ad96a8203de7a6058" rel="noreferrer">maestro:6ab1625ad96a8203de7a6058</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu.iommu_iommufd_fail_nth</strong><br><small>
+test · maestro · asus-CM1400CXA-dalboz · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc6c20239ade9033de1d" rel="noreferrer">maestro:6aa7fc6c20239ade9033de1d</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1625ad96a8203de7a6057" rel="noreferrer">maestro:6ab1625ad96a8203de7a6057</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+<tr><td class="identity">
+<strong>kernelci_watchdog_reset.wdt-reset</strong><br><small>
+test · maestro · asus-CX3402CVA-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fbc620239ade9033afde" rel="noreferrer">maestro:6aa7fbc620239ade9033afde</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab161d2d96a8203de7a52ee" rel="noreferrer">maestro:6ab161d2d96a8203de7a52ee</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+<tr><td class="identity">
+<strong>kernelci_watchdog_reset.wdt-reset.wdt-get-timeout</strong><br><small>
+test · maestro · asus-CX3402CVA-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fbc620239ade9033afdf" rel="noreferrer">maestro:6aa7fbc620239ade9033afdf</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab161d2d96a8203de7a52ef" rel="noreferrer">maestro:6ab161d2d96a8203de7a52ef</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu</strong><br><small>
+test · maestro · asus-CX3402CVA-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fb3320239ade9033adb0" rel="noreferrer">maestro:6aa7fb3320239ade9033adb0</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16161d96a8203de7a3b52" rel="noreferrer">maestro:6ab16161d96a8203de7a3b52</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu.iommu_iommufd</strong><br><small>
+test · maestro · asus-CX3402CVA-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc1320239ade9033d36d" rel="noreferrer">maestro:6aa7fc1320239ade9033d36d</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab161e1d96a8203de7a534c" rel="noreferrer">maestro:6ab161e1d96a8203de7a534c</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu.iommu_iommufd_fail_nth</strong><br><small>
+test · maestro · asus-CX3402CVA-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc1320239ade9033d36c" rel="noreferrer">maestro:6aa7fc1320239ade9033d36c</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab161e1d96a8203de7a534b" rel="noreferrer">maestro:6ab161e1d96a8203de7a534b</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+<tr><td class="identity">
+<strong>kselftest.dt</strong><br><small>
+test · maestro · bcm2711-rpi-4-b · arm64 · gcc-14 · defconfig+lab-setup+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa8776020239ade9037225e" rel="noreferrer">maestro:6aa8776020239ade9037225e</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1605bd96a8203de7a362d" rel="noreferrer">maestro:6ab1605bd96a8203de7a362d</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+<tr><td class="identity">
+<strong>kselftest.dt.dt_test_unprobed_devices_sh</strong><br><small>
+test · maestro · bcm2711-rpi-4-b · arm64 · gcc-14 · defconfig+lab-setup+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa8782e20239ade90374bcd" rel="noreferrer">maestro:6aa8782e20239ade90374bcd</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16153d96a8203de7a3a94" rel="noreferrer">maestro:6ab16153d96a8203de7a3a94</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+<tr><td class="identity">
+<strong>kselftest.dt.dt_test_unprobed_devices_sh_i2c-mux0</strong><br><small>
+test · maestro · bcm2711-rpi-4-b · arm64 · gcc-14 · defconfig+lab-setup+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa8782e20239ade90374c05" rel="noreferrer">maestro:6aa8782e20239ade90374c05</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16153d96a8203de7a3acc" rel="noreferrer">maestro:6ab16153d96a8203de7a3acc</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu</strong><br><small>
+test · maestro · dell-latitude-3445-7520c-skyrim · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fb3820239ade9033adbc" rel="noreferrer">maestro:6aa7fb3820239ade9033adbc</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16166d96a8203de7a3b76" rel="noreferrer">maestro:6ab16166d96a8203de7a3b76</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu.iommu_iommufd</strong><br><small>
+test · maestro · dell-latitude-3445-7520c-skyrim · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc2f20239ade9033d57c" rel="noreferrer">maestro:6aa7fc2f20239ade9033d57c</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1623ed96a8203de7a5dc9" rel="noreferrer">maestro:6ab1623ed96a8203de7a5dc9</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu.iommu_iommufd_fail_nth</strong><br><small>
+test · maestro · dell-latitude-3445-7520c-skyrim · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc2f20239ade9033d57b" rel="noreferrer">maestro:6aa7fc2f20239ade9033d57b</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1623ed96a8203de7a5dc8" rel="noreferrer">maestro:6ab1623ed96a8203de7a5dc8</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu</strong><br><small>
+test · maestro · hp-x360-14a-cb0001xx-zork · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fb3920239ade9033adc3" rel="noreferrer">maestro:6aa7fb3920239ade9033adc3</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16167d96a8203de7a3b79" rel="noreferrer">maestro:6ab16167d96a8203de7a3b79</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu.iommu_iommufd</strong><br><small>
+test · maestro · hp-x360-14a-cb0001xx-zork · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc0f20239ade9033d220" rel="noreferrer">maestro:6aa7fc0f20239ade9033d220</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16259d96a8203de7a601e" rel="noreferrer">maestro:6ab16259d96a8203de7a601e</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu.iommu_iommufd_fail_nth</strong><br><small>
+test · maestro · hp-x360-14a-cb0001xx-zork · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc0f20239ade9033d21f" rel="noreferrer">maestro:6aa7fc0f20239ade9033d21f</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16259d96a8203de7a601d" rel="noreferrer">maestro:6ab16259d96a8203de7a601d</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+<tr><td class="identity">
+<strong>kbuild-clang-21-arm-kselftest.build.kselftest.arm64</strong><br><small>
+test · maestro · kubernetes · arm · clang-21 · multi_v7_defconfig
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7eae920239ade90335d35" rel="noreferrer">maestro:6aa7eae920239ade90335d35</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab13cbcd96a8203de78ecdb" rel="noreferrer">maestro:6ab13cbcd96a8203de78ecdb</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+<tr><td class="identity">
+<strong>kbuild-clang-21-arm-kselftest.build.kselftest.drivers.s390x.uvdevice</strong><br><small>
+test · maestro · kubernetes · arm · clang-21 · multi_v7_defconfig
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7eae920239ade90335d44" rel="noreferrer">maestro:6aa7eae920239ade90335d44</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab13cbcd96a8203de78ecea" rel="noreferrer">maestro:6ab13cbcd96a8203de78ecea</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+<tr><td class="identity">
+<strong>kbuild-clang-21-arm-kselftest.build.kselftest.fchmodat2</strong><br><small>
+test · maestro · kubernetes · arm · clang-21 · multi_v7_defconfig
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7eae920239ade90335d4d" rel="noreferrer">maestro:6aa7eae920239ade90335d4d</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab13cbcd96a8203de78ecf3" rel="noreferrer">maestro:6ab13cbcd96a8203de78ecf3</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+<tr><td class="identity">
+<strong>kbuild-clang-21-arm-kselftest.build.kselftest.kexec</strong><br><small>
+test · maestro · kubernetes · arm · clang-21 · multi_v7_defconfig
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7eae920239ade90335d5f" rel="noreferrer">maestro:6aa7eae920239ade90335d5f</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab13cbcd96a8203de78ed05" rel="noreferrer">maestro:6ab13cbcd96a8203de78ed05</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+<tr><td class="identity">
+<strong>kbuild-clang-21-arm-kselftest.build.kselftest.openat2</strong><br><small>
+test · maestro · kubernetes · arm · clang-21 · multi_v7_defconfig
+<br>Occurrence 0</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7eae920239ade90335d83" rel="noreferrer">maestro:6aa7eae920239ade90335d83</a></code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab13cbcd96a8203de78ed29" rel="noreferrer">maestro:6ab13cbcd96a8203de78ed29</a></code></td>
+<td>Issue lookup limit reached</td></tr>
+</tbody></table></div></section>
+<section class="panel"><h2>New <small>(5426)</small></h2>
+<p>Showing 50 of 5426 entries. All entries are preserved in report.json.</p>
+<div class="scroll"><table><thead><tr><th>Result identity</th><th>Base</th><th>Head</th><th>Known issues at head</th></tr></thead><tbody>
+<tr><td class="identity">
+<strong>build</strong><br><small>
+build · maestro · unknown · arm · gcc-14 · multi_v7_defconfig+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/build/maestro%3A6ab137e6d96a8203de78df63" rel="noreferrer">maestro:6ab137e6d96a8203de78df63</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.dmabuf-heaps</strong><br><small>
+test · maestro · acer-R721T-grunt · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 1</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16253d96a8203de7a5f53" rel="noreferrer">maestro:6ab16253d96a8203de7a5f53</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec</strong><br><small>
+test · maestro · acer-R721T-grunt · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 1</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1625dd96a8203de7a6235" rel="noreferrer">maestro:6ab1625dd96a8203de7a6235</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_failure_of_execveat__100_lava-23017764_0_tests_1_kselftest-exec_automated_linux_kselftest_exec_execveat_symlink_256_with_ELOOP</strong><br><small>
+test · maestro · acer-R721T-grunt · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1625dd96a8203de7a6298" rel="noreferrer">maestro:6ab1625dd96a8203de7a6298</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_success_of_execveat_8_lava-23017764_0_test_yyyyyyyyyyyyyyyyyyyy_0</strong><br><small>
+test · maestro · acer-R721T-grunt · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1625ed96a8203de7a62e4" rel="noreferrer">maestro:6ab1625ed96a8203de7a62e4</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_success_of_execveat_8_lava-23017764_0_test_yyyyyyyyyyyyyyyyyyyy_0_dup2</strong><br><small>
+test · maestro · acer-R721T-grunt · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1625ed96a8203de7a62b0" rel="noreferrer">maestro:6ab1625ed96a8203de7a62b0</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_success_of_execveat_99_lava-23017764_0_tes_lftest_exec_execveat_0</strong><br><small>
+test · maestro · acer-R721T-grunt · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1625ed96a8203de7a62a8" rel="noreferrer">maestro:6ab1625ed96a8203de7a62a8</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_success_of_execveat__100_lava-23017764_0_tes_lftest_exec_execveat_0</strong><br><small>
+test · maestro · acer-R721T-grunt · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1625ed96a8203de7a62a9" rel="noreferrer">maestro:6ab1625ed96a8203de7a62a9</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_success_of_execveat__100_lava-23017764_0_tes_selftest_exec_script_0</strong><br><small>
+test · maestro · acer-R721T-grunt · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1625dd96a8203de7a6293" rel="noreferrer">maestro:6ab1625dd96a8203de7a6293</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_success_of_execveat__100_lava-23017764_0_tes_xec_execveat_symlink_0</strong><br><small>
+test · maestro · acer-R721T-grunt · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1625dd96a8203de7a629d" rel="noreferrer">maestro:6ab1625dd96a8203de7a629d</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_non-regular_file_S_IFBLK_exec_errno</strong><br><small>
+test · maestro · acer-R721T-grunt · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1625dd96a8203de7a627c" rel="noreferrer">maestro:6ab1625dd96a8203de7a627c</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_non-regular_file_S_IFCHR_exec_errno</strong><br><small>
+test · maestro · acer-R721T-grunt · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1625dd96a8203de7a627b" rel="noreferrer">maestro:6ab1625dd96a8203de7a627b</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_non-regular_file_S_IFDIR_exec_errno</strong><br><small>
+test · maestro · acer-R721T-grunt · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1625dd96a8203de7a627d" rel="noreferrer">maestro:6ab1625dd96a8203de7a627d</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_non-regular_file_S_IFIFO_exec_errno</strong><br><small>
+test · maestro · acer-R721T-grunt · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1625dd96a8203de7a627a" rel="noreferrer">maestro:6ab1625dd96a8203de7a627a</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_non-regular_file_S_IFLNK_exec_errno</strong><br><small>
+test · maestro · acer-R721T-grunt · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1625ed96a8203de7a62ae" rel="noreferrer">maestro:6ab1625ed96a8203de7a62ae</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_non-regular_sock_exec_errno</strong><br><small>
+test · maestro · acer-R721T-grunt · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1625dd96a8203de7a6279" rel="noreferrer">maestro:6ab1625dd96a8203de7a6279</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_failure_of_execveat__100_lava-23017759_0_tests_1_kselftest-exec_automated_linux_kselftest_exec_execveat_symlink_256_with_ELOOP</strong><br><small>
+test · maestro · acer-cbv514-1h-34uz-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab161f7d96a8203de7a54ab" rel="noreferrer">maestro:6ab161f7d96a8203de7a54ab</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_success_of_execveat_8_lava-23017759_0_test_yyyyyyyyyyyyyyyyyyyy_0</strong><br><small>
+test · maestro · acer-cbv514-1h-34uz-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab161f6d96a8203de7a5473" rel="noreferrer">maestro:6ab161f6d96a8203de7a5473</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_success_of_execveat_8_lava-23017759_0_test_yyyyyyyyyyyyyyyyyyyy_0_dup2</strong><br><small>
+test · maestro · acer-cbv514-1h-34uz-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab161f6d96a8203de7a546f" rel="noreferrer">maestro:6ab161f6d96a8203de7a546f</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_success_of_execveat_99_lava-23017759_0_tes_lftest_exec_execveat_0</strong><br><small>
+test · maestro · acer-cbv514-1h-34uz-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab161f7d96a8203de7a54f1" rel="noreferrer">maestro:6ab161f7d96a8203de7a54f1</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_success_of_execveat__100_lava-23017759_0_tes_lftest_exec_execveat_0</strong><br><small>
+test · maestro · acer-cbv514-1h-34uz-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab161f7d96a8203de7a54f3" rel="noreferrer">maestro:6ab161f7d96a8203de7a54f3</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_success_of_execveat__100_lava-23017759_0_tes_selftest_exec_script_0</strong><br><small>
+test · maestro · acer-cbv514-1h-34uz-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab161f6d96a8203de7a54a1" rel="noreferrer">maestro:6ab161f6d96a8203de7a54a1</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_success_of_execveat__100_lava-23017759_0_tes_xec_execveat_symlink_0</strong><br><small>
+test · maestro · acer-cbv514-1h-34uz-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab161f7d96a8203de7a54b5" rel="noreferrer">maestro:6ab161f7d96a8203de7a54b5</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_non-regular_file_S_IFBLK_exec_errno</strong><br><small>
+test · maestro · acer-cbv514-1h-34uz-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab161f6d96a8203de7a5467" rel="noreferrer">maestro:6ab161f6d96a8203de7a5467</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_non-regular_file_S_IFCHR_exec_errno</strong><br><small>
+test · maestro · acer-cbv514-1h-34uz-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab161f6d96a8203de7a5466" rel="noreferrer">maestro:6ab161f6d96a8203de7a5466</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_non-regular_file_S_IFDIR_exec_errno</strong><br><small>
+test · maestro · acer-cbv514-1h-34uz-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab161f6d96a8203de7a5469" rel="noreferrer">maestro:6ab161f6d96a8203de7a5469</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_non-regular_file_S_IFIFO_exec_errno</strong><br><small>
+test · maestro · acer-cbv514-1h-34uz-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab161f6d96a8203de7a5463" rel="noreferrer">maestro:6ab161f6d96a8203de7a5463</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_non-regular_file_S_IFLNK_exec_errno</strong><br><small>
+test · maestro · acer-cbv514-1h-34uz-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab161f6d96a8203de7a546b" rel="noreferrer">maestro:6ab161f6d96a8203de7a546b</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_non-regular_sock_exec_errno</strong><br><small>
+test · maestro · acer-cbv514-1h-34uz-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab161f6d96a8203de7a5461" rel="noreferrer">maestro:6ab161f6d96a8203de7a5461</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kernelci_watchdog_reset.wdt-reset</strong><br><small>
+test · maestro · acer-chromebox-cxi5-brask · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16288d96a8203de7a65b8" rel="noreferrer">maestro:6ab16288d96a8203de7a65b8</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kernelci_wifi_basic</strong><br><small>
+test · maestro · acer-chromebox-cxi5-brask · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 1</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16266d96a8203de7a6444" rel="noreferrer">maestro:6ab16266d96a8203de7a6444</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.cpufreq.suspend</strong><br><small>
+test · maestro · acer-chromebox-cxi5-brask · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 1</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1625fd96a8203de7a63e6" rel="noreferrer">maestro:6ab1625fd96a8203de7a63e6</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_failure_of_execveat__100_lava-23017760_0_tests_1_kselftest-exec_automated_linux_kselftest_exec_execveat_symlink_256_with_ELOOP</strong><br><small>
+test · maestro · acer-chromebox-cxi5-brask · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16350d96a8203de7a6a20" rel="noreferrer">maestro:6ab16350d96a8203de7a6a20</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_success_of_execveat_8_lava-23017760_0_test_yyyyyyyyyyyyyyyyyyyy_0</strong><br><small>
+test · maestro · acer-chromebox-cxi5-brask · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16350d96a8203de7a6a04" rel="noreferrer">maestro:6ab16350d96a8203de7a6a04</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_success_of_execveat_8_lava-23017760_0_test_yyyyyyyyyyyyyyyyyyyy_0_dup2</strong><br><small>
+test · maestro · acer-chromebox-cxi5-brask · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16350d96a8203de7a6a02" rel="noreferrer">maestro:6ab16350d96a8203de7a6a02</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_success_of_execveat_99_lava-23017760_0_tes_lftest_exec_execveat_0</strong><br><small>
+test · maestro · acer-chromebox-cxi5-brask · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16350d96a8203de7a6a30" rel="noreferrer">maestro:6ab16350d96a8203de7a6a30</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_success_of_execveat__100_lava-23017760_0_tes_lftest_exec_execveat_0</strong><br><small>
+test · maestro · acer-chromebox-cxi5-brask · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16350d96a8203de7a6a31" rel="noreferrer">maestro:6ab16350d96a8203de7a6a31</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_success_of_execveat__100_lava-23017760_0_tes_selftest_exec_script_0</strong><br><small>
+test · maestro · acer-chromebox-cxi5-brask · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16350d96a8203de7a6a1b" rel="noreferrer">maestro:6ab16350d96a8203de7a6a1b</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_success_of_execveat__100_lava-23017760_0_tes_xec_execveat_symlink_0</strong><br><small>
+test · maestro · acer-chromebox-cxi5-brask · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16350d96a8203de7a6a25" rel="noreferrer">maestro:6ab16350d96a8203de7a6a25</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_non-regular_file_S_IFBLK_exec_errno</strong><br><small>
+test · maestro · acer-chromebox-cxi5-brask · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16350d96a8203de7a69fe" rel="noreferrer">maestro:6ab16350d96a8203de7a69fe</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_non-regular_file_S_IFCHR_exec_errno</strong><br><small>
+test · maestro · acer-chromebox-cxi5-brask · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16350d96a8203de7a69fd" rel="noreferrer">maestro:6ab16350d96a8203de7a69fd</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_non-regular_file_S_IFDIR_exec_errno</strong><br><small>
+test · maestro · acer-chromebox-cxi5-brask · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16350d96a8203de7a69ff" rel="noreferrer">maestro:6ab16350d96a8203de7a69ff</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_non-regular_file_S_IFIFO_exec_errno</strong><br><small>
+test · maestro · acer-chromebox-cxi5-brask · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16350d96a8203de7a69fc" rel="noreferrer">maestro:6ab16350d96a8203de7a69fc</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_non-regular_file_S_IFLNK_exec_errno</strong><br><small>
+test · maestro · acer-chromebox-cxi5-brask · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16350d96a8203de7a6a00" rel="noreferrer">maestro:6ab16350d96a8203de7a6a00</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_non-regular_sock_exec_errno</strong><br><small>
+test · maestro · acer-chromebox-cxi5-brask · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16350d96a8203de7a69fb" rel="noreferrer">maestro:6ab16350d96a8203de7a69fb</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.iommu</strong><br><small>
+test · maestro · acer-chromebox-cxi5-brask · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 1</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16260d96a8203de7a63ef" rel="noreferrer">maestro:6ab16260d96a8203de7a63ef</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.cpufreq.suspend</strong><br><small>
+test · maestro · acer-cp514-2h-1130g7-volteer · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 1</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1624cd96a8203de7a5f27" rel="noreferrer">maestro:6ab1624cd96a8203de7a5f27</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_failure_of_execveat__100_lava-23017761_0_tests_1_kselftest-exec_automated_linux_kselftest_exec_execveat_symlink_256_with_ELOOP</strong><br><small>
+test · maestro · acer-cp514-2h-1130g7-volteer · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16247d96a8203de7a5e9e" rel="noreferrer">maestro:6ab16247d96a8203de7a5e9e</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_success_of_execveat_8_lava-23017761_0_test_yyyyyyyyyyyyyyyyyyyy_0</strong><br><small>
+test · maestro · acer-cp514-2h-1130g7-volteer · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16247d96a8203de7a5e89" rel="noreferrer">maestro:6ab16247d96a8203de7a5e89</a></code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_success_of_execveat_8_lava-23017761_0_test_yyyyyyyyyyyyyyyyyyyy_0_dup2</strong><br><small>
+test · maestro · acer-cp514-2h-1130g7-volteer · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16247d96a8203de7a5e87" rel="noreferrer">maestro:6ab16247d96a8203de7a5e87</a></code></td>
+<td>Not checked for this entry</td></tr>
+</tbody></table></div></section>
+<section class="panel"><h2>Missing <small>(796)</small></h2>
+<p>Showing 50 of 796 entries. All entries are preserved in report.json.</p>
+<div class="scroll"><table><thead><tr><th>Result identity</th><th>Base</th><th>Head</th><th>Known issues at head</th></tr></thead><tbody>
+<tr><td class="identity">
+<strong>build</strong><br><small>
+build · maestro · unknown · arm · gcc-14 · multi_v7_defconfig
+<br>Occurrence 2</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/build/maestro%3A6aa7e34620239ade90334707" rel="noreferrer">maestro:6aa7e34620239ade90334707</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>build</strong><br><small>
+build · maestro · unknown · mips · gcc-14 · 32r2el_defconfig
+<br>Occurrence 1</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/build/maestro%3A6aa7e3b520239ade90334907" rel="noreferrer">maestro:6aa7e3b520239ade90334907</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>build</strong><br><small>
+build · maestro · unknown · s390 · gcc-14 · defconfig
+<br>Occurrence 1</small></td>
+<td><strong>FAIL</strong><br><code><a href="https://dashboard.kernelci.org/api/build/maestro%3A6aa7e3d820239ade90334a03" rel="noreferrer">maestro:6aa7e3d820239ade90334a03</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>build</strong><br><small>
+build · maestro · unknown · x86_64 · clang-21 · x86_64_defconfig+kselftest+x86-board
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/build/maestro%3A6aa7e31420239ade903346d5" rel="noreferrer">maestro:6aa7e31420239ade903346d5</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>build</strong><br><small>
+build · maestro · unknown · x86_64 · gcc-14 · x86_64_defconfig+aws-ec2
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/build/maestro%3A6aa7e3e720239ade90334a67" rel="noreferrer">maestro:6aa7e3e720239ade90334a67</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>build</strong><br><small>
+build · maestro · unknown · x86_64 · gcc-14 · x86_64_defconfig+kselftest+x86-board
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/build/maestro%3A6aa7e3ff20239ade90334acb" rel="noreferrer">maestro:6aa7e3ff20239ade90334acb</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · aaeon-UPN-EHLX4RE-A10-0864 · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fb6b20239ade9033ae4f" rel="noreferrer">maestro:6aa7fb6b20239ade9033ae4f</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · acer-R721T-grunt · x86_64 · gcc-14 · x86_64_defconfig+kcidebug+kcidebug-x86_64+x86-board
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7ee9920239ade90336984" rel="noreferrer">maestro:6aa7ee9920239ade90336984</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · acer-cbv514-1h-34uz-brya · x86_64 · gcc-14 · x86_64_defconfig+kcidebug+kcidebug-x86_64+x86-board
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7eea020239ade903369a3" rel="noreferrer">maestro:6aa7eea020239ade903369a3</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · acer-cp514-2h-1130g7-volteer · x86_64 · gcc-14 · x86_64_defconfig+kcidebug+kcidebug-x86_64+x86-board
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7eea220239ade903369a6" rel="noreferrer">maestro:6aa7eea220239ade903369a6</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · acer-cp514-2h-1160g7-volteer · x86_64 · gcc-14 · x86_64_defconfig+kcidebug+kcidebug-x86_64+x86-board
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7eea320239ade903369ac" rel="noreferrer">maestro:6aa7eea320239ade903369ac</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · acer-cp514-3wh-r0qs-guybrush · x86_64 · gcc-14 · x86_64_defconfig+kcidebug+kcidebug-x86_64+x86-board
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7ee9b20239ade9033698a" rel="noreferrer">maestro:6aa7ee9b20239ade9033698a</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · asus-CM1400CXA-dalboz · x86_64 · gcc-14 · x86_64_defconfig+kcidebug+kcidebug-x86_64+x86-board
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7ee9c20239ade9033698d" rel="noreferrer">maestro:6aa7ee9c20239ade9033698d</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · asus-CX3402CVA-brya · x86_64 · gcc-14 · x86_64_defconfig+kcidebug+kcidebug-x86_64+x86-board
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7eea420239ade903369af" rel="noreferrer">maestro:6aa7eea420239ade903369af</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · at91sam9g20ek · arm · gcc-14 · multi_v5_defconfig
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa8581720239ade9036b69d" rel="noreferrer">maestro:6aa8581720239ade9036b69d</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · beaglebone-black · arm · gcc-14 · multi_v7_defconfig
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa9119720239ade903a97d7" rel="noreferrer">maestro:6aa9119720239ade903a97d7</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · beaglebone-black · arm · gcc-14 · multi_v7_defconfig
+<br>Occurrence 1</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa911a220239ade903a97eb" rel="noreferrer">maestro:6aa911a220239ade903a97eb</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · dell-latitude-3445-7520c-skyrim · x86_64 · gcc-14 · x86_64_defconfig+kcidebug+kcidebug-x86_64+x86-board
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7ee9d20239ade90336992" rel="noreferrer">maestro:6aa7ee9d20239ade90336992</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · hp-x360-14a-cb0001xx-zork · x86_64 · gcc-14 · x86_64_defconfig+kcidebug+kcidebug-x86_64+x86-board
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7ee9e20239ade90336998" rel="noreferrer">maestro:6aa7ee9e20239ade90336998</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · imx6dl-udoo · arm · gcc-14 · multi_v7_defconfig
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa911a320239ade903a97ee" rel="noreferrer">maestro:6aa911a320239ade903a97ee</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · imx6q-sabrelite · arm · gcc-14 · multi_v7_defconfig
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa9119a20239ade903a97e3" rel="noreferrer">maestro:6aa9119a20239ade903a97e3</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · imx6q-udoo · arm · gcc-14 · multi_v7_defconfig
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa911a420239ade903a97f1" rel="noreferrer">maestro:6aa911a420239ade903a97f1</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · jh7110-starfive-visionfive-2-v1-3b · riscv · gcc-14 · defconfig
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7e71f20239ade903352df" rel="noreferrer">maestro:6aa7e71f20239ade903352df</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · k3-am625-verdin-wifi-mallow · arm64 · gcc-14 · defconfig+lab-setup+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa8772a20239ade90372157" rel="noreferrer">maestro:6aa8772a20239ade90372157</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · lenovo-TPad-C13-Yoga-zork · x86_64 · gcc-14 · x86_64_defconfig+kcidebug+kcidebug-x86_64+x86-board
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7ee9f20239ade9033699b" rel="noreferrer">maestro:6aa7ee9f20239ade9033699b</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · qemu-arm64 · arm64 · gcc-14 · defconfig+lab-setup+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa8770720239ade903720ff" rel="noreferrer">maestro:6aa8770720239ade903720ff</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · qemu-arm64 · arm64 · gcc-14 · defconfig+lab-setup+kselftest
+<br>Occurrence 1</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa8771120239ade90372127" rel="noreferrer">maestro:6aa8771120239ade90372127</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · qemu-x86_64 · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fb6620239ade9033ae29" rel="noreferrer">maestro:6aa7fb6620239ade9033ae29</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · qemu-x86_64 · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 1</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fb6920239ade9033ae4c" rel="noreferrer">maestro:6aa7fb6920239ade9033ae4c</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · r8a774a1-hihope-rzg2m-ex · arm64 · gcc-14 · defconfig+lab-setup+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa8770820239ade90372102" rel="noreferrer">maestro:6aa8770820239ade90372102</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · r8a779m1-ulcb · arm64 · gcc-14 · defconfig+lab-setup+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa8771220239ade9037212a" rel="noreferrer">maestro:6aa8771220239ade9037212a</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · rk3399-rock-pi-4b · arm64 · gcc-14 · defconfig+lab-setup+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa8771320239ade9037212d" rel="noreferrer">maestro:6aa8771320239ade9037212d</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · sc7180-trogdor-lazor-limozeen · arm64 · gcc-14 · defconfig+lab-setup+arm64-chromebook+CONFIG_MODULE_COMPRESS=n+CONFIG_MODULE_COMPRESS_NONE=y
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa80fa220239ade90343e08" rel="noreferrer">maestro:6aa80fa220239ade90343e08</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot.nfs</strong><br><small>
+boot · maestro · sc7180-trogdor-lazor-limozeen · arm64 · gcc-14 · defconfig+lab-setup+arm64-chromebook+CONFIG_MODULE_COMPRESS=n+CONFIG_MODULE_COMPRESS_NONE=y
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa80fa920239ade90343e17" rel="noreferrer">maestro:6aa80fa920239ade90343e17</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · stm32mp157a-dhcor-avenger96 · arm · gcc-14 · multi_v7_defconfig
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa911a520239ade903a97f4" rel="noreferrer">maestro:6aa911a520239ade903a97f4</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · sun50i-a64-pine64-plus · arm64 · gcc-14 · defconfig+lab-setup+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa8772e20239ade90372184" rel="noreferrer">maestro:6aa8772e20239ade90372184</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · x86-openblocks-iot-vx2 · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fb6720239ade9033ae43" rel="noreferrer">maestro:6aa7fb6720239ade9033ae43</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · x86-siemens-mcom · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fb6720239ade9033ae46" rel="noreferrer">maestro:6aa7fb6720239ade9033ae46</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · x86-simatic-ipc227e · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fb6820239ade9033ae49" rel="noreferrer">maestro:6aa7fb6820239ade9033ae49</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>boot</strong><br><small>
+boot · maestro · zynqmp-zcu102 · arm64 · gcc-14 · defconfig+lab-setup+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa8770920239ade90372105" rel="noreferrer">maestro:6aa8770920239ade90372105</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_failure_of_execveat__100_lava-22965310_0_tests_1_kselftest-exec_automated_linux_kselftest_exec_execveat_symlink_256_with_ELOOP</strong><br><small>
+test · maestro · acer-R721T-grunt · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc1220239ade9033d2ed" rel="noreferrer">maestro:6aa7fc1220239ade9033d2ed</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_success_of_execveat_8_lava-22965310_0_test_yyyyyyyyyyyyyyyyyyyy_0</strong><br><small>
+test · maestro · acer-R721T-grunt · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc1220239ade9033d2d1" rel="noreferrer">maestro:6aa7fc1220239ade9033d2d1</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_success_of_execveat_8_lava-22965310_0_test_yyyyyyyyyyyyyyyyyyyy_0_dup2</strong><br><small>
+test · maestro · acer-R721T-grunt · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc1220239ade9033d2cf" rel="noreferrer">maestro:6aa7fc1220239ade9033d2cf</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_success_of_execveat_99_lava-22965310_0_tes_lftest_exec_execveat_0</strong><br><small>
+test · maestro · acer-R721T-grunt · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc1220239ade9033d2fd" rel="noreferrer">maestro:6aa7fc1220239ade9033d2fd</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_success_of_execveat__100_lava-22965310_0_tes_lftest_exec_execveat_0</strong><br><small>
+test · maestro · acer-R721T-grunt · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc1220239ade9033d2fe" rel="noreferrer">maestro:6aa7fc1220239ade9033d2fe</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_success_of_execveat__100_lava-22965310_0_tes_selftest_exec_script_0</strong><br><small>
+test · maestro · acer-R721T-grunt · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc1220239ade9033d2e8" rel="noreferrer">maestro:6aa7fc1220239ade9033d2e8</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_success_of_execveat__100_lava-22965310_0_tes_xec_execveat_symlink_0</strong><br><small>
+test · maestro · acer-R721T-grunt · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc1220239ade9033d2f2" rel="noreferrer">maestro:6aa7fc1220239ade9033d2f2</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_failure_of_execveat__100_lava-22965305_0_tests_1_kselftest-exec_automated_linux_kselftest_exec_execveat_symlink_256_with_ELOOP</strong><br><small>
+test · maestro · acer-cbv514-1h-34uz-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc2a20239ade9033d4bb" rel="noreferrer">maestro:6aa7fc2a20239ade9033d4bb</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_success_of_execveat_8_lava-22965305_0_test_yyyyyyyyyyyyyyyyyyyy_0</strong><br><small>
+test · maestro · acer-cbv514-1h-34uz-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc2a20239ade9033d49f" rel="noreferrer">maestro:6aa7fc2a20239ade9033d49f</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+<tr><td class="identity">
+<strong>kselftest.exec.exec_execveat_Check_success_of_execveat_8_lava-22965305_0_test_yyyyyyyyyyyyyyyyyyyy_0_dup2</strong><br><small>
+test · maestro · acer-cbv514-1h-34uz-brya · x86_64 · gcc-14 · x86_64_defconfig+lab-setup+x86-board+kselftest
+<br>Occurrence 0</small></td>
+<td><strong>PASS</strong><br><code><a href="https://dashboard.kernelci.org/api/test/maestro%3A6aa7fc2a20239ade9033d49d" rel="noreferrer">maestro:6aa7fc2a20239ade9033d49d</a></code></td>
+<td><strong>not observed</strong><br><code>not observed</code></td>
+<td>Not checked for this entry</td></tr>
+</tbody></table></div></section>
+<section class="panel"><h2>Selected failure evidence</h2>
+<h3><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab1405cd96a8203de790329" rel="noreferrer">maestro:6ab1405cd96a8203de790329</a></h3>
+<p>Log: KciDevError: Could not resolve log host files.kernelci.org: [Errno -3] Temporary failure in name resolution</p>
+<p><a href="https://files.kernelci.org/watchdog-reset-arm64-mediatek-6ab13e52d96a8203de78f41b/log.txt.gz" rel="noreferrer">Original log</a></p>
+<details><summary>Result details</summary><pre>{
+  &quot;field_timestamp&quot;: &quot;2026-09-21T14:43:50.329372Z&quot;,
+  &quot;id&quot;: &quot;maestro:6ab1405cd96a8203de790329&quot;,
+  &quot;build_id&quot;: &quot;maestro:6ab137add96a8203de78df17&quot;,
+  &quot;status&quot;: &quot;FAIL&quot;,
+  &quot;path&quot;: &quot;kernelci_watchdog_reset.wdt-reset.wdt-get-timeout&quot;,
+  &quot;log_excerpt&quot;: &quot;&quot;,
+  &quot;log_url&quot;: &quot;https://files.kernelci.org/watchdog-reset-arm64-mediatek-6ab13e52d96a8203de78f41b/log.txt.gz&quot;,
+  &quot;misc&quot;: {
+    &quot;lab&quot;: &quot;lava-collabora&quot;,
+    &quot;arch&quot;: &quot;arm64&quot;,
+    &quot;runtime&quot;: &quot;lava-collabora&quot;,
+    &quot;compiler&quot;: &quot;gcc-14&quot;,
+    &quot;error_msg&quot;: &quot;lava-test-interactive timed out after 300 seconds&quot;,
+    &quot;error_code&quot;: &quot;Test&quot;,
+    &quot;kernel_type&quot;: &quot;image&quot;,
+    &quot;maestro_viewer&quot;: &quot;https://api.kernelci.org/viewer?node_id=6ab1405cd96a8203de790329&quot;
+  },
+  &quot;environment_misc&quot;: {
+    &quot;job_id&quot;: &quot;23016493&quot;,
+    &quot;job_url&quot;: &quot;https://lava.collabora.dev/scheduler/job/23016493&quot;,
+    &quot;platform&quot;: &quot;mt8195-cherry-tomato-r2&quot;
+  },
+  &quot;start_time&quot;: &quot;2026-09-21T14:34:04.261000Z&quot;,
+  &quot;environment_compatible&quot;: [
+    &quot;google,tomato-rev2&quot;,
+    &quot;google,tomato&quot;,
+    &quot;mediatek,mt8195&quot;
+  ],
+  &quot;output_files&quot;: [
+    {
+      &quot;url&quot;: &quot;https://files.kernelci.org/watchdog-reset-arm64-mediatek-6ab13e52d96a8203de78f41b/lava-logs.yaml&quot;,
+      &quot;name&quot;: &quot;lava_logs&quot;
+    },
+    {
+      &quot;url&quot;: &quot;https://files.kernelci.org/watchdog-reset-arm64-mediatek-6ab13e52d96a8203de78f41b/lava_callback.json.gz&quot;,
+      &quot;name&quot;: &quot;callback_data&quot;
+    },
+    {
+      &quot;url&quot;: &quot;https://files.kernelci.org/logexcerpt/5558213d6e34b8de2e19adf45b2d1d5d03b4c78bc9aa8eee1e834c702269accd/logexcerpt.txt.gz&quot;,
+      &quot;name&quot;: &quot;log_excerpt&quot;
+    }
+  ],
+  &quot;input_files&quot;: null,
+  &quot;compiler&quot;: &quot;gcc-14&quot;,
+  &quot;architecture&quot;: &quot;arm64&quot;,
+  &quot;config_name&quot;: &quot;defconfig+lab-setup+arm64-chromebook+CONFIG_MODULE_COMPRESS=n+CONFIG_MODULE_COMPRESS_NONE=y&quot;,
+  &quot;git_commit_hash&quot;: &quot;e2acc2211022246c77740d5df08265cc27eedcc5&quot;,
+  &quot;git_repository_branch&quot;: &quot;linux-6.12.y&quot;,
+  &quot;git_repository_url&quot;: &quot;https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git&quot;,
+  &quot;git_commit_tags&quot;: [
+    &quot;v6.12.111&quot;
+  ],
+  &quot;tree_name&quot;: &quot;stable&quot;,
+  &quot;origin&quot;: &quot;maestro&quot;,
+  &quot;test_origin&quot;: &quot;maestro&quot;
+}</pre></details>
+<h3><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab16162d96a8203de7a3b55" rel="noreferrer">maestro:6ab16162d96a8203de7a3b55</a></h3>
+<p>Log: KciDevError: Could not resolve log host files.kernelci.org: [Errno -3] Temporary failure in name resolution</p>
+<p><a href="https://files.kernelci.org/kselftest-iommu-6ab16162d96a8203de7a3b55/log.txt.gz" rel="noreferrer">Original log</a></p>
+<details><summary>Result details</summary><pre>{
+  &quot;field_timestamp&quot;: &quot;2026-09-21T17:11:42.431481Z&quot;,
+  &quot;id&quot;: &quot;maestro:6ab16162d96a8203de7a3b55&quot;,
+  &quot;build_id&quot;: &quot;maestro:6ab13862d96a8203de78e0b1&quot;,
+  &quot;status&quot;: &quot;FAIL&quot;,
+  &quot;path&quot;: &quot;kselftest.iommu&quot;,
+  &quot;log_excerpt&quot;: &quot;&quot;,
+  &quot;log_url&quot;: &quot;https://files.kernelci.org/kselftest-iommu-6ab16162d96a8203de7a3b55/log.txt.gz&quot;,
+  &quot;misc&quot;: {
+    &quot;lab&quot;: &quot;lava-collabora&quot;,
+    &quot;arch&quot;: &quot;x86_64&quot;,
+    &quot;runtime&quot;: &quot;lava-collabora&quot;,
+    &quot;compiler&quot;: &quot;gcc-14&quot;,
+    &quot;kernel_type&quot;: &quot;bzimage&quot;,
+    &quot;maestro_viewer&quot;: &quot;https://api.kernelci.org/viewer?node_id=6ab16162d96a8203de7a3b55&quot;
+  },
+  &quot;environment_misc&quot;: {
+    &quot;job_id&quot;: &quot;23017777&quot;,
+    &quot;job_url&quot;: &quot;https://lava.collabora.dev/scheduler/job/23017777&quot;,
+    &quot;platform&quot;: &quot;acer-R721T-grunt&quot;
+  },
+  &quot;start_time&quot;: &quot;2026-09-21T16:54:58.360000Z&quot;,
+  &quot;environment_compatible&quot;: null,
+  &quot;output_files&quot;: [
+    {
+      &quot;url&quot;: &quot;https://files.kernelci.org/kselftest-iommu-6ab16162d96a8203de7a3b55/lava-logs.yaml&quot;,
+      &quot;name&quot;: &quot;lava_logs&quot;
+    },
+    {
+      &quot;url&quot;: &quot;https://files.kernelci.org/kselftest-iommu-6ab16162d96a8203de7a3b55/lava_callback.json.gz&quot;,
+      &quot;name&quot;: &quot;callback_data&quot;
+    },
+    {
+      &quot;url&quot;: &quot;https://files.kernelci.org/logexcerpt/9aa7e41b4ed7951b33a03713080f459a6b0167d35ea0927f3e50d90eabcf4f41/logexcerpt.txt.gz&quot;,
+      &quot;name&quot;: &quot;log_excerpt&quot;
+    }
+  ],
+  &quot;input_files&quot;: null,
+  &quot;compiler&quot;: &quot;gcc-14&quot;,
+  &quot;architecture&quot;: &quot;x86_64&quot;,
+  &quot;config_name&quot;: &quot;x86_64_defconfig+lab-setup+x86-board+kselftest&quot;,
+  &quot;git_commit_hash&quot;: &quot;e2acc2211022246c77740d5df08265cc27eedcc5&quot;,
+  &quot;git_repository_branch&quot;: &quot;linux-6.12.y&quot;,
+  &quot;git_repository_url&quot;: &quot;https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git&quot;,
+  &quot;git_commit_tags&quot;: [
+    &quot;v6.12.111&quot;
+  ],
+  &quot;tree_name&quot;: &quot;stable&quot;,
+  &quot;origin&quot;: &quot;maestro&quot;,
+  &quot;test_origin&quot;: &quot;maestro&quot;
+}</pre></details>
+<h3><a href="https://dashboard.kernelci.org/api/test/maestro%3A6ab164dbd96a8203de7a97db" rel="noreferrer">maestro:6ab164dbd96a8203de7a97db</a></h3>
+<p>Log: KciDevError: Could not resolve log host files.kernelci.org: [Errno -3] Temporary failure in name resolution</p>
+<p><a href="https://files.kernelci.org/kselftest-iommu-6ab16162d96a8203de7a3b55/log.txt.gz" rel="noreferrer">Original log</a></p>
+<details><summary>Result details</summary><pre>{
+  &quot;field_timestamp&quot;: &quot;2026-09-21T17:18:57.321558Z&quot;,
+  &quot;id&quot;: &quot;maestro:6ab164dbd96a8203de7a97db&quot;,
+  &quot;build_id&quot;: &quot;maestro:6ab13862d96a8203de78e0b1&quot;,
+  &quot;status&quot;: &quot;FAIL&quot;,
+  &quot;path&quot;: &quot;kselftest.iommu.iommu_iommufd&quot;,
+  &quot;log_excerpt&quot;: &quot;&quot;,
+  &quot;log_url&quot;: &quot;https://files.kernelci.org/kselftest-iommu-6ab16162d96a8203de7a3b55/log.txt.gz&quot;,
+  &quot;misc&quot;: {
+    &quot;lab&quot;: &quot;lava-collabora&quot;,
+    &quot;arch&quot;: &quot;x86_64&quot;,
+    &quot;runtime&quot;: &quot;lava-collabora&quot;,
+    &quot;compiler&quot;: &quot;gcc-14&quot;,
+    &quot;kernel_type&quot;: &quot;bzimage&quot;,
+    &quot;maestro_viewer&quot;: &quot;https://api.kernelci.org/viewer?node_id=6ab164dbd96a8203de7a97db&quot;
+  },
+  &quot;environment_misc&quot;: {
+    &quot;job_id&quot;: &quot;23017777&quot;,
+    &quot;job_url&quot;: &quot;https://lava.collabora.dev/scheduler/job/23017777&quot;,
+    &quot;platform&quot;: &quot;acer-R721T-grunt&quot;
+  },
+  &quot;start_time&quot;: &quot;2026-09-21T17:09:47.775000Z&quot;,
+  &quot;environment_compatible&quot;: null,
+  &quot;output_files&quot;: [
+    {
+      &quot;url&quot;: &quot;https://files.kernelci.org/kselftest-iommu-6ab16162d96a8203de7a3b55/lava-logs.yaml&quot;,
+      &quot;name&quot;: &quot;lava_logs&quot;
+    },
+    {
+      &quot;url&quot;: &quot;https://files.kernelci.org/kselftest-iommu-6ab16162d96a8203de7a3b55/lava_callback.json.gz&quot;,
+      &quot;name&quot;: &quot;callback_data&quot;
+    },
+    {
+      &quot;url&quot;: &quot;https://files.kernelci.org/logexcerpt/9aa7e41b4ed7951b33a03713080f459a6b0167d35ea0927f3e50d90eabcf4f41/logexcerpt.txt.gz&quot;,
+      &quot;name&quot;: &quot;log_excerpt&quot;
+    }
+  ],
+  &quot;input_files&quot;: null,
+  &quot;compiler&quot;: &quot;gcc-14&quot;,
+  &quot;architecture&quot;: &quot;x86_64&quot;,
+  &quot;config_name&quot;: &quot;x86_64_defconfig+lab-setup+x86-board+kselftest&quot;,
+  &quot;git_commit_hash&quot;: &quot;e2acc2211022246c77740d5df08265cc27eedcc5&quot;,
+  &quot;git_repository_branch&quot;: &quot;linux-6.12.y&quot;,
+  &quot;git_repository_url&quot;: &quot;https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git&quot;,
+  &quot;git_commit_tags&quot;: [
+    &quot;v6.12.111&quot;
+  ],
+  &quot;tree_name&quot;: &quot;stable&quot;,
+  &quot;origin&quot;: &quot;maestro&quot;,
+  &quot;test_origin&quot;: &quot;maestro&quot;
+}</pre></details>
+</section><p class="muted">Source links open the selected dashboard API. Unchanged results contribute to the observed counts but do not appear in the change tables.</p></main></body></html>

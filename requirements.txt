@@ -1,0 +1,1 @@
+kci-dev @ git+https://github.com/kernelci/kci-dev.git@ba6b7134f1296702182b6559b5a2320f3d6b40fa
