@@ -140,12 +140,116 @@ responses. They cover empty and partial data, duplicate executions, missing
 results/history, issue limits, routing, log errors, output fidelity, and HTML
 escaping. Unit tests do not contact external services.
 
+## Publish comparisons with GitHub Actions and Pages
+
+`.github/workflows/release-review-pages.yml` tests the application, runs every
+entry in `comparisons.json`, and deploys the resulting static site. It runs on
+relevant pushes to `main`, daily at 03:23 UTC, and through **Run workflow** in
+the Actions tab. Scheduled runs can be delayed by GitHub. Pull requests run the
+offline tests and validate the configuration, without querying KernelCI or
+publishing. Manual runs on branches other than `main` also only validate.
+
+### First deployment
+
+1. In **Settings > Pages > Build and deployment**, select **GitHub Actions** as
+   the source. This is required once, including for a repository with no existing
+   Pages site. The normal workflow token cannot enable Pages by itself.
+2. Review `comparisons.json`, apply the changes to `main`, and open
+   **Actions > Release review Pages > Run workflow** if a run has not started.
+3. Open the URL shown by the `github-pages` deployment. With the default project
+   domain for this repository, it is
+   <https://aliceinwire.github.io/kci_release_review/>.
+
+No personal access token or additional secret is needed. The build job has only
+`contents: read`; only the separate deployment job receives `pages: write` and
+`id-token: write`. The workflow uses the `github-pages` environment and allows
+deployment only from `main`. If that environment has protection rules, allow
+`main` and satisfy any configured review requirement. Deployment uploads a Pages
+artifact without committing generated files or creating a `gh-pages` branch.
+If Pages previously served other content, the next deployment replaces it with
+this comparison site. Existing custom-domain settings remain managed in Pages.
+
+### Select the comparisons
+
+The initial manifest uses the same real linux-6.12.y commit pair as the example
+above. It deliberately uses explicit hashes: scheduled runs refresh evidence
+for those pairs; they do **not** discover or advance to newer kernel releases.
+Use the existing `trees` and `history` commands to find other tested hashes,
+then update the manifest. Add more entries to publish several comparisons in
+one site. Keep entries you still want linked from the index.
+
+Each entry requires `id`, `giturl`, `branch`, `base`, and `head`. IDs are unique,
+at most 64 characters, and use lowercase letters, digits, and single hyphens.
+They become stable report directories, such as `stable-6-12/report.html`.
+Base and head must be different full 40-character hashes. Optional fields are:
+
+| Field | Default | Meaning |
+|---|---|---|
+| `title` | `id` | Label on the index |
+| `origin` | `maestro` | KernelCI result origin |
+| `dashboard_api` | kci-dev default | Public HTTP(S) dashboard endpoint |
+| `include_issues` | `true` | Whether to fetch known issues |
+| `max_issue_lookups` | `20` | Issue request budget, 0 to 1,000 |
+| `max_evidence` | `3` | Expanded failing result IDs, 0 to 100 |
+| `log_bytes` | `8192` | Bytes per test log, 0 to 1,048,576 |
+
+Pages publishes the full JSON evidence and bounded log excerpts as well as HTML.
+Use comparisons whose results are intended to be public. Unknown fields and
+invalid selections fail validation before any comparison requests are made.
+
+### Outcomes, updates, and retained reports
+
+The site contains an `index.html`, a machine-readable `summary.json`, and the
+unmodified `report.html` / `report.json` pair for each configured comparison.
+All internal links are relative, including the full-data link in each report,
+so both a project Pages URL and a custom domain work without a base-path option.
+
+The site builder invokes `python -m kci_release_review compare` for each entry.
+CLI exit codes **0, 1, and 2** are publishable only when both report files exist
+and the JSON assessment matches the exit code and selected commits. Review
+findings and incomplete evidence remain visible in the index, reports, workflow
+warnings, and Actions job summary. A diagnostic report with no comparison is
+published explicitly as incomplete, with counts shown as unavailable.
+
+A crash, timeout, missing output, invalid JSON, or mismatched report fails the
+build and prevents deployment, leaving the previously deployed site in place.
+Each comparison has a 15-minute timeout; the build job has a 45-minute timeout.
+Reduce request budgets or split large comparison lists if needed. Publication
+success describes report generation and deployment, not kernel release approval.
+
+Every successful deployment replaces the site with the current configured set;
+it is not a growing archive of workflow runs. Each run's `github-pages` artifact
+is retained for 14 days, subject to repository or organization retention limits.
+The site itself remains available until another deployment replaces it.
+
+### Build locally
+
+After installing `requirements.txt`, validate and generate the same site:
+
+```sh
+python -m kci_release_review.pages --check
+python -m kci_release_review.pages --config comparisons.json --out _site
+```
+
+Open `_site/index.html` in a browser. The output directory must be empty or new;
+use a different `--out` path for subsequent local builds. Configuration checking
+is offline; generating the site makes the application's read-only API requests.
+The site builder adds no Python dependencies.
+
+GitHub references:
+
+- <https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages>
+- <https://github.com/actions/configure-pages/blob/v5/action.yml>
+
 ## Code layout
 
 - `client.py`: public API subclass that records observations and limits issue calls.
 - `report.py`: evidence collection, completeness assessment, and JSON structure.
 - `html_report.py`: escaped static HTML presentation with source links.
 - `__main__.py`: command-line input, configuration, and file output.
+- `pages.py`: manifest validation, comparison runner, static index, and Actions summary.
+- `comparisons.json`: the tested commit pairs to refresh and publish.
+- `.github/workflows/release-review-pages.yml`: tests, scheduled builds, and Pages deployment.
 
 Source references:
 

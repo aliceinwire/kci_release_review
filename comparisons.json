@@ -1,0 +1,16 @@
+{
+  "comparisons": [
+    {
+      "id": "stable-6-12",
+      "title": "Linux 6.12.y: v6.12.110 to v6.12.111",
+      "giturl": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+      "branch": "linux-6.12.y",
+      "origin": "maestro",
+      "base": "fa5b06866b643cce7072a4e7c6be7ee3f0f1b95c",
+      "head": "e2acc2211022246c77740d5df08265cc27eedcc5",
+      "max_issue_lookups": 20,
+      "max_evidence": 3,
+      "log_bytes": 8192
+    }
+  ]
+}
