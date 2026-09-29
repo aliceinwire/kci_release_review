@@ -9,7 +9,7 @@ from pathlib import Path
 import sys
 import tempfile
 
-from .client import make_client
+from .client import DEFAULT_HISTORY_HOURS, make_client
 from .html_report import render_html
 from .report import collect_report, validate_selection
 
@@ -43,6 +43,8 @@ def parser():
     compare.add_argument("--out", type=Path, default=None, help="Output directory (default: timestamped reports directory)")
     compare.add_argument("--force", action="store_true", help="Replace existing report files in --out")
     compare.add_argument("--no-issues", action="store_true", help="Disable supplemental known-issue requests")
+    compare.add_argument("--history-hours", type=bounded(1, 720), default=DEFAULT_HISTORY_HOURS,
+                         help="Tree history lookback, 1..720 hours (default: 720, dashboard maximum)")
     compare.add_argument("--max-issue-lookups", type=bounded(0, 1000), default=20)
     compare.add_argument("--max-evidence", type=bounded(0, 100), default=5, help="Maximum failing result IDs expanded")
     compare.add_argument("--log-bytes", type=bounded(0, 1_048_576), default=16_384, help="Bytes per test log; 0 disables downloads")
@@ -80,7 +82,8 @@ def main(argv=None):
                 raise ValueError("Report files already exist; choose another --out or use --force")
         with redirect_stdout(sys.stderr):
             client = make_client(args.config, args.instance, args.dashboard_api,
-                                 getattr(args, "max_issue_lookups", 20))
+                                 getattr(args, "max_issue_lookups", 20),
+                                 history_hours=getattr(args, "history_hours", DEFAULT_HISTORY_HOURS))
             if args.command == "trees":
                 result = client.get_tree_list(origin=args.origin, days=args.days)
             elif args.command == "history":
@@ -95,7 +98,10 @@ def main(argv=None):
             print(json.dumps({"status": result["assessment"]["status"],
                               "report_json": str(out / "report.json"),
                               "report_html": str(out / "report.html"),
-                              "counts": (result.get("comparison") or {}).get("counts", {})}, indent=2))
+                              "counts": (result.get("comparison") or {}).get("counts", {}),
+                              "incomplete_reasons": result["incomplete_reasons"],
+                              "errors": result["errors"],
+                              "history_lookup": result["history_lookup"]}, indent=2))
             return result["assessment"]["exit_code"]
         print(json.dumps(result, indent=2, ensure_ascii=False))
         return 0

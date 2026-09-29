@@ -40,10 +40,13 @@ def service(base, head, *, history_error=False, log_error=False, max_issues=20):
                 return {_section: data[commit][_section]}
             calls[section] = stack.enter_context(patch.object(KernelCIClient, "get_" + section,
                                                              autospec=True, side_effect=fetch))
+        def fetch_history(self, origin, git_branch, git_url, **kwargs):
+            if history_error:
+                raise KciDevError("history unavailable")
+            return {"origin": origin, "git_url": git_url,
+                    "git_branch": git_branch, "commit_hash": HEAD}
         calls["history"] = stack.enter_context(patch.object(
-            KernelCIClient, "get_tree_report", autospec=True,
-            side_effect=KciDevError("history unavailable") if history_error else None,
-            return_value={}))
+            KernelCIClient, "get_tree_report", autospec=True, side_effect=fetch_history))
         for method in ("get_build_issues", "get_boot_issues"):
             calls[method] = stack.enter_context(patch.object(
                 KernelCIClient, method, autospec=True, return_value=[{"id": "known:issue-1"}]))

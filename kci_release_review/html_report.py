@@ -67,7 +67,13 @@ def render_html(report, rows_per_category=50):
     parts.append('</div><section class="panel"><h2>Evidence and scope</h2><ul>')
     for note in report["errors"] + report["incomplete_reasons"] + report["notes"]:
         parts.append(f'<li>{text(note)}</li>')
-    parts.append('</ul><div class="scroll"><table><thead><tr><th>Checkout</th><th>Builds</th><th>Boots</th><th>Tests</th></tr></thead><tbody>')
+    parts.append('</ul>')
+    history = report.get("history_lookup", {})
+    if history.get("state") != "not_requested":
+        parts.append(f'<p>History lookup: <strong>{text(history.get("state"))}</strong>; '
+                     f'lookback {text(history.get("max_age_in_hours"))} hours; '
+                     f'returned checkout <code>{text(history.get("commit_hash"))}</code>.</p>')
+    parts.append('<div class="scroll"><table><thead><tr><th>Checkout</th><th>Builds</th><th>Boots</th><th>Tests</th></tr></thead><tbody>')
     for side in ("base", "head"):
         parts.append(f'<tr><th>{text(side.title())}</th>')
         for section in SECTIONS:

@@ -1,5 +1,6 @@
 {
   "origin": "maestro",
+  "history_hours": 720,
   "include_issues": false,
   "max_issue_lookups": 0,
   "max_evidence": 0,

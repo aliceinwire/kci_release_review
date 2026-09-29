@@ -12,9 +12,11 @@ from urllib.parse import urlparse
 
 from .html_report import text
 from .report import CATEGORIES, validate_selection
+from .client import DEFAULT_HISTORY_HOURS
 
 SELECTION_FIELDS = ("giturl", "branch", "origin", "base", "head")
 LIMITS = {
+    "history_hours": (DEFAULT_HISTORY_HOURS, 720),
     "max_issue_lookups": (20, 1000),
     "max_evidence": (3, 100),
     "log_bytes": (8192, 1_048_576),
@@ -64,8 +66,9 @@ def validate_comparisons(document):
             raise ValueError(f"{slug}: include_issues must be true or false")
         for key, (default, maximum) in LIMITS.items():
             value = entry.setdefault(key, default)
-            if type(value) is not int or not 0 <= value <= maximum:
-                raise ValueError(f"{slug}: {key} must be an integer from 0 to {maximum}")
+            minimum = 1 if key == "history_hours" else 0
+            if type(value) is not int or not minimum <= value <= maximum:
+                raise ValueError(f"{slug}: {key} must be an integer from {minimum} to {maximum}")
         if "dashboard_api" in entry:
             endpoint = entry["dashboard_api"]
             if not isinstance(endpoint, str):
@@ -83,7 +86,7 @@ def run_comparison(entry, destination, *, timeout=900):
     for key in SELECTION_FIELDS:
         command.append(f"--{key}={entry[key]}")
     for key in LIMITS:
-        command.append(f"--{key.replace('_', '-')}={entry[key]}")
+        command.append(f"--{key.replace('_', '-')}={entry.get(key, LIMITS[key][0])}")
     if "dashboard_api" in entry:
         command.append(f"--dashboard-api={entry['dashboard_api']}")
     if not entry["include_issues"]:
@@ -123,12 +126,17 @@ def load_result(entry, destination, exit_code):
         if (not isinstance(counts, dict) or set(counts) != set(CATEGORIES)
                 or any(type(value) is not int or value < 0 for value in counts.values())):
             raise ValueError(f"{entry['id']}: invalid comparison counts")
+    diagnostics = {key: report.get(key, []) for key in ("incomplete_reasons", "errors")}
+    if any(not isinstance(values, list) or any(not isinstance(value, str) for value in values)
+           for values in diagnostics.values()):
+        raise ValueError(f"{entry['id']}: invalid report diagnostics")
     return {
         "id": entry["id"], "title": entry["title"], "selection": selection,
         "status": assessment["status"], "exit_code": exit_code,
         "counts": counts, "finished_at": report.get("finished_at"),
         "report_html": f"{entry['id']}/report.html",
         "report_json": f"{entry['id']}/report.json",
+        **diagnostics,
     }
 
 
@@ -170,6 +178,11 @@ def render_index(summary):
         if entry.get("watch_status"):
             parts.append(f'<p><strong>{text(entry["watch_status"].replace("_", " "))}</strong>: '
                          f'{text(entry.get("watch_note", ""))}</p>')
+        reasons = entry.get("errors", []) + entry.get("incomplete_reasons", [])
+        if reasons:
+            parts.append('<p><strong>Why this comparison is incomplete:</strong></p><ul>')
+            parts.extend(f'<li>{text(reason)}</li>' for reason in reasons)
+            parts.append('</ul>')
         parts.append('<dl>')
         for key in SELECTION_FIELDS:
             parts.append(f'<dt>{text(key)}</dt><dd><code>{text(entry["selection"][key])}</code></dd>')

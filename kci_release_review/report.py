@@ -107,7 +107,8 @@ def collect_report(client, selection, *, include_issues=True, max_evidence=5,
     errors = []
     notes = [
         "Required test coverage, pending jobs, and release policy have not been assessed.",
-        "Classifications come from kci-dev; its history lookup uses a recent tree-report window.",
+        f"Classifications come from kci-dev; tree history is requested within the last {client.history_hours} hours "
+        "and is used only when its checkout matches the selected head.",
         "Counts describe observed executions, including duplicates; they are not a coverage percentage.",
     ]
     progress("Comparing the two checkouts with kci-dev")
@@ -141,6 +142,11 @@ def collect_report(client, selection, *, include_issues=True, max_evidence=5,
             problems.append(f"{untraceable} comparison entries lack source result IDs needed for verification.")
     if client.history_lookup["state"] == "error":
         problems.append("History lookup: " + client.history_lookup["error"])
+        if "Tree not found in the given interval" in client.history_lookup["error"]:
+            problems.append(
+                f"No tree history was returned within the last {client.history_lookup['max_age_in_hours']} hours. "
+                "Exact-commit results below are retained. The dashboard supports at most 720 hours; "
+                "older or absent history cannot be recovered by repeating this request.")
     issue_states = Counter(entry["state"] for entry in client.issue_lookups.values())
     if issue_states["limited"]:
         problems.append(f"Issue lookup limit left {issue_states['limited']} result IDs unchecked.")
