@@ -29,6 +29,10 @@ STATUSES = {
 def load_comparisons(path):
     """Validate the entire manifest before making requests or writing files."""
     document = json.loads(Path(path).read_text(encoding="utf-8"))
+    return validate_comparisons(document)
+
+
+def validate_comparisons(document):
     if not isinstance(document, dict) or set(document) != {"comparisons"}:
         raise ValueError("Configuration must contain only a comparisons array")
     rows = document["comparisons"]
@@ -73,7 +77,7 @@ def load_comparisons(path):
     return comparisons
 
 
-def run_comparison(entry, destination):
+def run_comparison(entry, destination, *, timeout=900):
     """Keep exit codes 0/1/2 only when matching, complete report files exist."""
     command = [sys.executable, "-m", "kci_release_review", "compare"]
     for key in SELECTION_FIELDS:
@@ -86,9 +90,14 @@ def run_comparison(entry, destination):
         command.append("--no-issues")
     command.append(f"--out={destination}")
     # No shell interpolation, and no --force: stale reports must never be reused.
-    completed = subprocess.run(command, check=False, timeout=900)
+    completed = subprocess.run(command, check=False, timeout=timeout)
     if completed.returncode not in STATUSES:
         raise RuntimeError(f"{entry['id']}: comparison exited with {completed.returncode}")
+    return load_result(entry, destination, completed.returncode)
+
+
+def load_result(entry, destination, exit_code):
+    """Validate newly generated or restored report files for this selection."""
     html_path, json_path = destination / "report.html", destination / "report.json"
     if not html_path.is_file() or not html_path.stat().st_size or not json_path.is_file():
         raise RuntimeError(f"{entry['id']}: comparison did not write both report files")
@@ -98,15 +107,15 @@ def run_comparison(entry, destination):
     assessment = report.get("assessment")
     if (not isinstance(assessment, dict)
             or type(assessment.get("exit_code")) is not int
-            or assessment["exit_code"] != completed.returncode
-            or assessment.get("status") != STATUSES[completed.returncode]):
+            or assessment["exit_code"] != exit_code
+            or assessment.get("status") != STATUSES[exit_code]):
         raise ValueError(f"{entry['id']}: report assessment does not match the process exit code")
     selection = {key: entry[key] for key in SELECTION_FIELDS}
     if report.get("selection") != selection:
         raise ValueError(f"{entry['id']}: report describes a different comparison")
     comparison = report.get("comparison")
     if comparison is None:
-        if completed.returncode != 2:
+        if exit_code != 2:
             raise ValueError(f"{entry['id']}: missing comparison without an incomplete assessment")
         counts = None
     else:
@@ -116,7 +125,7 @@ def run_comparison(entry, destination):
             raise ValueError(f"{entry['id']}: invalid comparison counts")
     return {
         "id": entry["id"], "title": entry["title"], "selection": selection,
-        "status": assessment["status"], "exit_code": completed.returncode,
+        "status": assessment["status"], "exit_code": exit_code,
         "counts": counts, "finished_at": report.get("finished_at"),
         "report_html": f"{entry['id']}/report.html",
         "report_json": f"{entry['id']}/report.json",
@@ -146,12 +155,22 @@ def render_index(summary):
         'and release policy are not assessed. A successful publication does not approve a release.</p>',
         '<p><a href="summary.json">Download the comparison index as JSON</a></p>',
     ]
+    if summary.get("release_watch"):
+        parts.append('<p><a href="release-state.json">Release discovery and retry state</a></p>')
+        for message in summary.get("source_errors", []):
+            parts.append(f'<p class="status"><strong>Discovery error:</strong> {text(message)}</p>')
+        for message in summary.get("notices", []):
+            parts.append(f'<p class="muted">{text(message)}</p>')
     for entry in summary["comparisons"]:
         parts.extend([
             f'<section><h2>{text(entry["title"])}</h2>',
             f'<p class="status"><strong>{text(entry["status"].replace("_", " "))}</strong>'
-            f' (comparison exit code {entry["exit_code"]})</p><dl>',
+            f' (comparison exit code {entry["exit_code"]})</p>',
         ])
+        if entry.get("watch_status"):
+            parts.append(f'<p><strong>{text(entry["watch_status"].replace("_", " "))}</strong>: '
+                         f'{text(entry.get("watch_note", ""))}</p>')
+        parts.append('<dl>')
         for key in SELECTION_FIELDS:
             parts.append(f'<dt>{text(key)}</dt><dd><code>{text(entry["selection"][key])}</code></dd>')
         parts.append('</dl><div class="scroll"><table><thead><tr>')
@@ -161,11 +180,13 @@ def render_index(summary):
         for category in CATEGORIES:
             count = (entry["counts"] or {}).get(category, "unavailable")
             parts.append(f'<td>{text(count)}</td>')
-        parts.extend([
-            '</tr></tbody></table></div>',
-            f'<p><a href="{text(entry["report_html"])}">Read the comparison report</a> · '
-            f'<a href="{text(entry["report_json"])}">Download full JSON</a></p></section>',
-        ])
+        parts.append('</tr></tbody></table></div>')
+        if entry.get("report_html"):
+            parts.append(f'<p><a href="{text(entry["report_html"])}">Read the comparison report</a> · '
+                         f'<a href="{text(entry["report_json"])}">Download full JSON</a></p>')
+        else:
+            parts.append('<p>No report yet. This comparison remains queued.</p>')
+        parts.append('</section>')
     parts.append('</main></body></html>')
     return "\n".join(parts) + "\n"
 
@@ -198,6 +219,16 @@ def write_actions_summary(summary, path):
     for entry in summary["comparisons"]:
         # IDs and statuses have been validated, so no remote text enters Markdown.
         rows.append(f"| {entry['id']} | {entry['status']} | {entry['exit_code']} |\n")
+    if summary.get("release_watch"):
+        rows.append("\n### Release discovery and retries\n\n")
+        for message in summary.get("source_errors", []):
+            rows.append(f"<p><strong>Discovery error:</strong> {text(message)}</p>\n")
+        for message in summary.get("notices", []):
+            rows.append(f"<p>{text(message)}</p>\n")
+        for entry in summary["comparisons"]:
+            if entry.get("watch_status"):
+                rows.append(f"<p><code>{text(entry['id'])}</code>: <strong>{text(entry['watch_status'])}</strong> "
+                            f"{text(entry.get('watch_note', ''))}</p>\n")
     with Path(path).open("a", encoding="utf-8") as stream:
         stream.write("".join(rows))
 
